@@ -1,0 +1,18 @@
+{
+    "name": "TD3D.Core.Runtime",
+    "rootNamespace": "TD3D.Core.Runtime",
+    "references": [
+        "GUID:bb1ffefc3dfaace4eb1d1ecc2cf4e24a",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:f4b25e78f096ead41bab888a001e186b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

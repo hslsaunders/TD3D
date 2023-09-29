@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d66998f6d124acda1cae9dc1bae514d, type: 3}
+  m_Name: DevContentGroup
+  m_EditorClassIdentifier: 
+  <TestTurret>k__BackingField:
+    <AssetReference>k__BackingField:
+      m_asset:
+        value: {fileID: 5988554843885751709, guid: 4169cc6db50b33d47bd1ee49f08ba3bc, type: 3}
+      <Value>k__BackingField:
+        m_AssetGUID: 4169cc6db50b33d47bd1ee49f08ba3bc
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
