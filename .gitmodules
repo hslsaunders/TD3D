@@ -1,0 +1,3 @@
+[submodule "Assets/UFlow"]
+	path = Assets/UFlow
+	url = https://github.com/Danon5/uflow.git
