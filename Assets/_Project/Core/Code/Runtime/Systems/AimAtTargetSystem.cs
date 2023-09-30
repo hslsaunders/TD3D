@@ -1,5 +1,8 @@
 ﻿using _Project.Core.Code.Components;
+using Sirenix.Utilities;
 using UFlow.Addon.ECS.Core.Runtime;
+using UFlow.Core.Runtime;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Scripting;
 
@@ -19,9 +22,14 @@ namespace TD3D.Core.Runtime.Runtime {
             ref var rotationPivot = ref entity.Get<RotationPivot>().value;
 
             float turnSpeed = aimAtTarget.rotationSpeed;
-            Debug.Log(targetTransform.name);
-            
-            rotationPivot.LookAt(targetTransform);
+
+            Vector3 targetGroundPos = new Vector3(targetTransform.position.x, 0f, targetTransform.position.z);
+            Vector3 pivotGroundPos = new Vector3(rotationPivot.position.x, 0f, rotationPivot.position.z);
+
+            var rotation = Quaternion.LookRotation((targetGroundPos - pivotGroundPos).normalized);
+            rotationPivot.rotation = Quaternion.RotateTowards(rotationPivot.rotation, rotation, turnSpeed * delta);
+
+            //Vector2 direction = targetGroundPos - pivotGroundPos;
         }
     }
 }
