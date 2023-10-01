@@ -1,9 +1,9 @@
-﻿using _Project.Core.Content.Runtime.ContentGroups;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
+using TD3D.Core.Runtime.Runtime.ContentGroups;
 using UFlow.Core.Runtime;
 
 namespace TD3D.Core.Runtime.Runtime {
-    public class TurretTestModule : BaseSceneModule<TurretTestModule> {
+    public sealed class TurretTestModule : BaseSceneModule<TurretTestModule> {
         public override string SceneName => "TurretTest";
 
         protected override UniTask PostSceneLoadAsync() {

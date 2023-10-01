@@ -321,30 +321,52 @@ MonoBehaviour:
     m_authoring:
     - enabled: 1
       value:
-        rid: 8054022308518952972
+        rid: 8054022330781007886
     - enabled: 1
       value:
-        rid: 8054022308518952966
+        rid: 8054022330781007889
     - enabled: 1
       value:
-        rid: 8054022308518952969
+        rid: 8054022330781007890
+    - enabled: 1
+      value:
+        rid: 8054022330781007875
+    - enabled: 1
+      value:
+        rid: 8054022330781007898
+    - enabled: 1
+      value:
+        rid: 8054022330781007884
   m_isValidPrefab: 1
   m_persistentKey: Turret
   references:
     version: 2
     RefIds:
-    - rid: 8054022308518952966
-      type: {class: RotationPivot, ns: _Project.Core.Code.Components, asm: TD3D.Core.Runtime}
+    - rid: 8054022330781007875
+      type: {class: BezierTester, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:
-        value: {fileID: 320421383721260378}
-    - rid: 8054022308518952969
-      type: {class: TargetHolder, ns: _Project.Core.Code.Components, asm: TD3D.Core.Runtime}
+        sampleValue: 0
+        debugSize: 0.5
+    - rid: 8054022330781007884
+      type: {class: FireCooldown, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:
-        value: {fileID: 6718985552062838772}
-    - rid: 8054022308518952972
-      type: {class: AimAtTarget, ns: _Project.Core.Code.Components, asm: TD3D.Core.Runtime}
+        time: 0
+    - rid: 8054022330781007886
+      type: {class: AimAtTarget, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:
         rotationSpeed: 45
+    - rid: 8054022330781007889
+      type: {class: RotationPivot, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
+      data:
+        value: {fileID: 320421383721260378}
+    - rid: 8054022330781007890
+      type: {class: TargetHolder, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
+      data:
+        value: {fileID: 6718985552062838772}
+    - rid: 8054022330781007898
+      type: {class: BarrageTower, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
+      data:
+        fireDelay: 30
 --- !u!1 &3155252807855925114
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,6 @@
 [submodule "Assets/UFlow"]
 	path = Assets/UFlow
 	url = https://github.com/Danon5/uflow.git
+[submodule "Assets/UFlowAddons/Addons/ECS"]
+	path = Assets/UFlowAddons/Addons/ECS
+	url = https://github.com/Danon5/uflow-addon-ecs.git

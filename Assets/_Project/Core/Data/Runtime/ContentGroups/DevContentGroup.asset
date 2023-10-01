@@ -21,3 +21,12 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+  <BarrageRocket>k__BackingField:
+    <AssetReference>k__BackingField:
+      m_asset:
+        value: {fileID: 7547190198259573793, guid: e105e6e674c8e5b468e0bbfc4e71f9d7, type: 3}
+      <Value>k__BackingField:
+        m_AssetGUID: e105e6e674c8e5b468e0bbfc4e71f9d7
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0

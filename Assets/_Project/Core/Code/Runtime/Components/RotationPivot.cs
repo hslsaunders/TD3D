@@ -2,7 +2,7 @@
 using UFlow.Addon.ECS.Core.Runtime;
 using UnityEngine;
 
-namespace _Project.Core.Code.Components {
+namespace TD3D.Core.Runtime.Runtime {
     public struct RotationPivot : IEcsComponent {
         [Required] public Transform value;
     }

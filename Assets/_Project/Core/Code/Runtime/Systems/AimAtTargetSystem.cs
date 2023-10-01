@@ -1,5 +1,4 @@
-﻿using _Project.Core.Code.Components;
-using Sirenix.Utilities;
+﻿using Sirenix.Utilities;
 using UFlow.Addon.ECS.Core.Runtime;
 using UFlow.Core.Runtime;
 using UnityEditor;
