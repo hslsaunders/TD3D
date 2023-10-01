@@ -333,7 +333,7 @@ MonoBehaviour:
         rid: 8054022330781007875
     - enabled: 1
       value:
-        rid: 8054022330781007898
+        rid: 8054022330781007902
     - enabled: 1
       value:
         rid: 8054022330781007884
@@ -363,10 +363,10 @@ MonoBehaviour:
       type: {class: TargetHolder, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:
         value: {fileID: 6718985552062838772}
-    - rid: 8054022330781007898
+    - rid: 8054022330781007902
       type: {class: BarrageTower, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:
-        fireDelay: 30
+        fireDelay: 1
 --- !u!1 &3155252807855925114
 GameObject:
   m_ObjectHideFlags: 0

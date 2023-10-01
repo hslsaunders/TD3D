@@ -17,8 +17,7 @@ namespace TD3D.Core.Runtime.Runtime {
                 this.controlPoints.Add(new ControlPoint(point));
             }
         }
-        
-        
+
         private Vector3 SumControlPoints(float t)
         {
             Vector3 sum = Vector3.zero;

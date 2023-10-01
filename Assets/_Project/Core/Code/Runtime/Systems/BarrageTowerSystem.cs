@@ -23,21 +23,22 @@ namespace TD3D.Core.Runtime.Runtime {
             ref var source = ref entity.Get<RotationPivot>().value;
 
             fireCooldown.time -= delta;
-
-            
             
             if (fireCooldown.time < 0) {
-                ref var rocket = ref DevContentGroup.Get().BarrageRocket.Instantiate().AsEntity().Get<BarrageRocket>();
-                
-                Vector3 dir = (target.position - source.position).normalized;
-                Vector3 cross = Vector3.Cross(source.position, target.position).normalized;
+                for (int i = 0; i < 1; i++) {
+                    ref var rocket = ref DevContentGroup.Get().BarrageRocket.Instantiate().AsEntity().Get<BarrageRocket>();
 
+                    Vector3 displacement = target.position - source.position;
+                    float dist = displacement.magnitude;
+                    Vector3 dir = displacement.normalized;
+                    //Vector3 cross = Vector3.Cross(source.position, target.position).normalized;
 
-                Vector3 cp1 = Vector3.Lerp(source.position, target.position, 0.5f) + cross;
-                
-                rocket.curve = new BezierCurve(source.position, target.position, new List<Vector3>{cp1});
-                rocket.travelTime = 30f;
-                
+                    Vector3 cp1 = Vector3.Lerp(source.position, target.position, 0.5f) +
+                                  new Vector3(Random.Range(-dist, dist) * .6f, Random.Range(-dist, dist) * .6f);
+
+                    rocket.curve = new BezierCurve(source.position, target.position, new List<Vector3> { cp1 });
+                    rocket.travelTime = .6f;
+                }
                 fireCooldown.time += tower.fireDelay;
             }
         }

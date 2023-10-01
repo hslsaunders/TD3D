@@ -1,4 +1,5 @@
 ﻿using UFlow.Addon.ECS.Core.Runtime;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace TD3D.Core.Runtime.Runtime {
@@ -15,6 +16,10 @@ namespace TD3D.Core.Runtime.Runtime {
             
             rocket.time += delta;
             float t = rocket.time / rocket.travelTime;
+            if (t >= 1f) {
+                entity.Destroy();
+                return;
+            }
             rocketTransform.position = rocket.curve.EvaluateCurvePoint(t);
             rocketTransform.forward = rocket.curve.EvaluateCurveTangent(t);
         }
