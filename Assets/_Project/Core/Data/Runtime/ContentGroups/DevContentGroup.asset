@@ -30,3 +30,12 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+  <Explosion>k__BackingField:
+    <AssetReference>k__BackingField:
+      m_asset:
+        value: {fileID: 81673309122852451, guid: 2bc1020f72e4b574ebb5fa0f93f2ac47, type: 3}
+      <Value>k__BackingField:
+        m_AssetGUID: 2bc1020f72e4b574ebb5fa0f93f2ac47
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0

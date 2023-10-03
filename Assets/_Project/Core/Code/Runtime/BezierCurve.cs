@@ -56,12 +56,17 @@ namespace TD3D.Core.Runtime.Runtime {
                 return start.point;
             return vectorSum / weightDivisor;
         }
-        
-        
+
+        private const float c_tan_sample_delta = .0001f;
         public Vector3 EvaluateCurveTangent(float t) {
+            t = Mathf.Clamp(t, 0f, 1f);
+            float sampleFlip = 1f;
+            if (1f - t < c_tan_sample_delta) {
+                sampleFlip = -1f;
+            }
             Vector3 sample1 = EvaluateCurvePoint(t);
-            Vector3 sample2 = EvaluateCurvePoint(t + .0001f);
-            return (sample2 - sample1).normalized;
+            Vector3 sample2 = EvaluateCurvePoint(t + c_tan_sample_delta * sampleFlip);
+            return (sample2 - sample1).normalized * sampleFlip;
 
             /*
             t = Mathf.Clamp(t, 0f, 1f);

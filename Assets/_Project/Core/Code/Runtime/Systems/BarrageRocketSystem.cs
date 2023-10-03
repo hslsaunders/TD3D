@@ -1,4 +1,7 @@
-﻿using UFlow.Addon.ECS.Core.Runtime;
+﻿using TD3D.Core.Runtime.Runtime.Behaviors;
+using TD3D.Core.Runtime.Runtime.ContentGroups;
+using UFlow.Addon.ECS.Core.Runtime;
+using UFlow.Core.Runtime;
 using UnityEngine;
 using UnityEngine.Scripting;
 
@@ -16,12 +19,26 @@ namespace TD3D.Core.Runtime.Runtime {
             
             rocket.time += delta;
             float t = rocket.time / rocket.travelTime;
-            if (t >= 1f) {
-                entity.Destroy();
-                return;
-            }
             rocketTransform.position = rocket.curve.EvaluateCurvePoint(t);
             rocketTransform.forward = rocket.curve.EvaluateCurveTangent(t);
+            if (t >= 1f) {
+                //entity.Destroy();
+                var explosionObj = DevContentGroup.Get().Explosion.Instantiate();
+                explosionObj.transform.position = rocketTransform.position;
+                
+                var explosionBehavior = explosionObj.GetComponent<ExplosionBehavior>();
+                var currEulerAngles = explosionBehavior.billboardTransform.localEulerAngles;
+                explosionBehavior.billboardTransform.localEulerAngles
+                    = new Vector3(currEulerAngles.x, currEulerAngles.y, Random.Range(0f, 360f));
+                explosionBehavior.smokeTransform.SetParent(null);
+                
+                rocket.lingeringEffects.SetParent(null);
+                rocket.trail.emit = false;
+                var emission = rocket.smokeParticleSystem.emission;
+                emission.rateOverTimeMultiplier = 0f;
+                Object.Destroy(rocket.lingeringEffects.gameObject, 1f);
+                CommandBuffer.Destroy(entity);
+            }
         }
     }
 }
