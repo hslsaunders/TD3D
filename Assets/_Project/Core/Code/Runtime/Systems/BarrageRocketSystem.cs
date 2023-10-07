@@ -11,7 +11,8 @@ namespace TD3D.Core.Runtime.Runtime {
     [ExecuteInGroup(typeof(FrameSimulationSystemGroup))]
     public class BarrageRocketSystem : BaseSetIterationDeltaSystem {
         public BarrageRocketSystem(in World world) : base(in world, world.BuildQuery()
-                                                              .With<BarrageRocket>()) { }
+                                                              .With<BarrageRocket>()
+                                                              .With<TransformRef>()) { }
 
         protected override void IterateEntity(World world, in Entity entity, float delta) {
             ref var rocket = ref entity.Get<BarrageRocket>();

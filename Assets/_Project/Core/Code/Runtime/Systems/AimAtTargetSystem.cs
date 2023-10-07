@@ -1,7 +1,4 @@
-﻿using Sirenix.Utilities;
-using UFlow.Addon.ECS.Core.Runtime;
-using UFlow.Core.Runtime;
-using UnityEditor;
+﻿using UFlow.Addon.ECS.Core.Runtime;
 using UnityEngine;
 using UnityEngine.Scripting;
 
@@ -9,15 +6,20 @@ namespace TD3D.Core.Runtime.Runtime {
     [Preserve]
     [ExecuteInWorld(typeof(DefaultWorld))]
     [ExecuteInGroup(typeof(FrameSimulationSystemGroup))]
+    [ExecuteAfter(typeof(TurretTargetHolderAssignerSystem))]
     public class AimAtTargetSystem : BaseSetIterationDeltaSystem {
         public AimAtTargetSystem(in World world) : base(in world, world.BuildQuery()
                                                             .With<AimAtTarget>()
-                                                            .With<TargetHolder>()
+                                                            .With<TurretTargetHolder>()
                                                             .With<RotationPivot>()) { }
 
         protected override void IterateEntity(World world, in Entity entity, float delta) {
             ref var aimAtTarget = ref entity.Get<AimAtTarget>();
-            ref var targetTransform = ref entity.Get<TargetHolder>().value;
+            ref var targetHolder = ref entity.Get<TurretTargetHolder>();
+
+            if (!targetHolder.targetEntity.IsAlive()) return;
+            
+            ref var targetTransform = ref targetHolder.targetEntity.Get<TransformRef>().value;
             ref var rotationPivot = ref entity.Get<RotationPivot>().value;
 
             float turnSpeed = aimAtTarget.rotationSpeed;

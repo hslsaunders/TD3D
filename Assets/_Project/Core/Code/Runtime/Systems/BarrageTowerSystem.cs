@@ -9,28 +9,31 @@ namespace TD3D.Core.Runtime.Runtime {
     [Preserve]
     [ExecuteInWorld(typeof(DefaultWorld))]
     [ExecuteInGroup(typeof(FrameSimulationSystemGroup))]
+    [ExecuteAfter(typeof(TurretTargetHolderAssignerSystem))]
     public sealed class BarrageTowerSystem : BaseSetIterationDeltaSystem {
         public BarrageTowerSystem(in World world) : base(in world, world.BuildQuery()
                                                              .With<BarrageTower>()
                                                              .With<FireCooldown>()
-                                                             .With<TargetHolder>()
+                                                             .With<TurretTargetHolder>()
                                                              .With<RotationPivot>()) { }
 
         protected override void IterateEntity(World world, in Entity entity, float delta) {
             ref var tower = ref entity.Get<BarrageTower>();
             ref var fireCooldown = ref entity.Get<FireCooldown>();
-            ref var target = ref entity.Get<TargetHolder>().value;
+            ref var targetHolder = ref entity.Get<TurretTargetHolder>();
             ref var source = ref entity.Get<RotationPivot>().value;
 
             fireCooldown.barrageTime -= delta;
             
             if (fireCooldown.barrageTime < 0f) {
-                if (fireCooldown.perMissileTime < 0f) {
+                if (fireCooldown.perMissileTime < 0f && targetHolder.targetEntity.IsAlive()) {
                     var rocketEntity = DevContentGroup.Get().BarrageRocket.Instantiate().AsEntity();
                     ref var rocket = ref rocketEntity.Get<BarrageRocket>();
                     ref var rocketTransform = ref rocketEntity.Get<TransformRef>().value;
                     
-                    Vector3 displacement = target.position - source.position;
+                    Vector3 targetEntityPos = targetHolder.targetEntity.Get<TransformRef>().value.position;
+                    
+                    Vector3 displacement = targetEntityPos - source.position;
                     float dist = displacement.magnitude;
                     Vector3 dir = displacement.normalized;
                     //Vector3 cross = Vector3.Cross(source.position, target.position).normalized;
@@ -39,7 +42,7 @@ namespace TD3D.Core.Runtime.Runtime {
 
                     Vector3 randomTargetOffset = Random.insideUnitSphere * tower.barrageSpreadRange;
                     randomTargetOffset.y = 0f;
-                    Vector3 targetPos = target.position + randomTargetOffset;
+                    Vector3 targetPos = targetEntityPos + randomTargetOffset + new Vector3(0f, 1f, 0f);
 
                     Vector3 pointAlongLine = Vector3.Lerp(sourcePos, targetPos, .6f);
                     float distFromPointToEnd = Vector3.Distance(pointAlongLine, targetPos);
