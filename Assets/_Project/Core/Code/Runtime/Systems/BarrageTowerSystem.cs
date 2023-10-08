@@ -22,11 +22,12 @@ namespace TD3D.Core.Runtime.Runtime {
             ref var fireCooldown = ref entity.Get<FireCooldown>();
             ref var targetHolder = ref entity.Get<TurretTargetHolder>();
             ref var source = ref entity.Get<RotationPivot>().value;
-
-            fireCooldown.barrageTime -= delta;
             
-            if (fireCooldown.barrageTime < 0f) {
-                if (fireCooldown.perMissileTime < 0f && targetHolder.targetEntity.IsAlive()) {
+            if (fireCooldown.barrageTime >= 0f)
+                fireCooldown.barrageTime -= delta;
+            
+            if (fireCooldown.barrageTime <= 0f) {
+                if (fireCooldown.perMissileTime <= 0f && targetHolder.targetEntity.IsAlive()) {
                     var rocketEntity = DevContentGroup.Get().BarrageRocket.Instantiate().AsEntity();
                     ref var rocket = ref rocketEntity.Get<BarrageRocket>();
                     ref var rocketTransform = ref rocketEntity.Get<TransformRef>().value;
@@ -73,7 +74,8 @@ namespace TD3D.Core.Runtime.Runtime {
                     fireCooldown.perMissileTime += tower.fireDelay;
                 }
 
-                fireCooldown.perMissileTime -= delta;
+                if (fireCooldown.perMissileTime >= 0f)
+                    fireCooldown.perMissileTime -= delta;
             }
         }
     }

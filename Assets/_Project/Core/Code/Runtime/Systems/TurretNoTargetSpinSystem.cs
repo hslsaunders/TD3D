@@ -18,7 +18,7 @@ namespace TD3D.Core.Runtime.Runtime {
             
             ref var rotationPivot = ref entity.Get<RotationPivot>().value;
             Vector3 eulerAngles = rotationPivot.eulerAngles;
-            rotationPivot.eulerAngles = new Vector3(eulerAngles.x, eulerAngles.y + 30f * Time.deltaTime, 0f);
+            rotationPivot.eulerAngles = new Vector3(eulerAngles.x, eulerAngles.y + 30f * delta, 0f);
         }
     }
 }
