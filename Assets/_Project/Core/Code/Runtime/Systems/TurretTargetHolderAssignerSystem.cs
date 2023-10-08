@@ -11,27 +11,30 @@ namespace TD3D.Core.Runtime.Runtime {
 
         public TurretTargetHolderAssignerSystem(in World world) : base(in world, world.BuildQuery()
                                                                            .With<TurretTargetHolder>()
-                                                                           .With<TransformRef>()) {
+                                                                           .With<TransformRef>()
+                                                                           .With<AttackRange>()) {
             m_targetableEntities = world.BuildQuery().With<TurretTarget>().With<TransformRef>().AsSet();
         }
 
         protected override void IterateEntity(World world, in Entity entity) {
             var position = entity.Get<TransformRef>().value.position;
             ref var targetHolder = ref entity.Get<TurretTargetHolder>();
+            float attackRange = entity.Get<AttackRange>().value;
             
             Entity targetEntity = default;
             float shortestDist = Mathf.Infinity;
             foreach (var possibleTarget in m_targetableEntities) {
                 Vector3 targetPos = possibleTarget.Get<TransformRef>().value.position;
                 float dist = Vector3.Distance(targetPos, position);
+                if (dist > attackRange) continue;
+                
                 if (dist < shortestDist) {
                     shortestDist = dist;
                     targetEntity = possibleTarget;
                 }
             }
 
-            if (targetEntity.IsAlive())
-                targetHolder.targetEntity = targetEntity;
+            targetHolder.targetEntity = targetEntity;
         }
     }
 }

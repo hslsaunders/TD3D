@@ -38,7 +38,9 @@ namespace TD3D.Core.Runtime.Runtime {
                     Vector3 dir = displacement.normalized;
                     //Vector3 cross = Vector3.Cross(source.position, target.position).normalized;
 
-                    Vector3 sourcePos = tower.fireSources[tower.currBarrageCount].position;
+                    var fireSource = tower.fireSources[tower.currBarrageCount];
+                    
+                    Vector3 sourcePos = fireSource.rocketSpawnTransform.position;
 
                     Vector3 randomTargetOffset = Random.insideUnitSphere * tower.barrageSpreadRange;
                     randomTargetOffset.y = 0f;
