@@ -11,11 +11,9 @@ namespace TD3D.Core.Runtime.Runtime {
     public class GameBootstrap : BaseBootstrap {
         public override async UniTask Boot(Context context) {
             QualitySettings.vSyncCount = 0;
-
+            await EntityContentGroup.LoadAsync();
             await DevContentGroup.LoadAsync();
-            
             EcsModule.Load();
-            
             await TurretTestModule.LoadAsync();
         }
     }
