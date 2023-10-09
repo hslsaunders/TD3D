@@ -7,6 +7,7 @@ namespace TD3D.Core.Runtime.Runtime {
         public override string SceneName => "TurretTest";
 
         protected override UniTask PostSceneLoadAsync() {
+            EntityContentGroup.Get().RenderSettings.Instantiate();
             DevContentGroup.Get().TestTurret.Instantiate();
             return base.PostSceneLoadAsync();
         }

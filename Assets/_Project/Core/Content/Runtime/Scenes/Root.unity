@@ -156,6 +156,7 @@ MonoBehaviour:
     m_value: {fileID: 11400000, guid: 3e856ae112721014993c79cea3930549, type: 2}
   m_contentGroups:
   - m_value: {fileID: 11400000, guid: b109a0572b077a643a96ace1fdd031ed, type: 2}
+  - m_value: {fileID: 11400000, guid: f634c090699a3fc479b13c52e0539db8, type: 2}
 --- !u!4 &1350872708
 Transform:
   m_ObjectHideFlags: 0

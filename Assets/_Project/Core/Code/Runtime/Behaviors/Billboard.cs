@@ -1,26 +1,27 @@
-﻿using System;
+﻿using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Rendering;
 
-namespace TD3D.Core.Runtime.Runtime.Behaviors {
+namespace TD3D.Core.Runtime {
     [ExecuteAlways]
-    public class Billboard : MonoBehaviour {
+    public sealed class Billboard : MonoBehaviour {
         [SerializeField] private bool m_ignoreZ;
 
-        private void Awake() {
-            Camera.onPreRender += UpdateOrientation;
-        }
+        [UsedImplicitly]
+        private void Awake() => RenderPipelineManager.beginCameraRendering += UpdateOrientation;
 
-        private void OnDestroy() {
-            Camera.onPreRender -= UpdateOrientation;
-        }
+        [UsedImplicitly]
+        private void OnDestroy() => RenderPipelineManager.beginCameraRendering -= UpdateOrientation;
 
-        private void UpdateOrientation(Camera cam) {
-            if (cam != null) {
-                float oldZ = transform.eulerAngles.z;
-                transform.forward = -cam.transform.forward;
-                if (m_ignoreZ)
-                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, oldZ);
-            }
+        private void UpdateOrientation(ScriptableRenderContext ctx, Camera cam) {
+            if (cam == null) return;
+            var trs = transform;
+            var oldZ = trs.eulerAngles.z;
+            trs.forward = cam.transform.position - trs.position;
+            if (m_ignoreZ) return;
+            var euler = trs.eulerAngles;
+            euler.z = oldZ;
+            trs.eulerAngles = euler;
         }
     }
 }
