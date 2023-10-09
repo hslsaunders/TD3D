@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfb06a7d3a9341fa99464554d131b318, type: 3}
   m_Name: PlayerCameraConfig
   m_EditorClassIdentifier: 
-  <MoveSpeed>k__BackingField: 8
+  <MoveSpeed>k__BackingField: 10
   <LerpSpeed>k__BackingField: 10
-  <ZoomSpeed>k__BackingField: 15
-  <ZoomLerpSpeed>k__BackingField: 3
+  <ZoomSpeed>k__BackingField: 20
+  <ZoomLerpSpeed>k__BackingField: 5
   <ZoomYCurve>k__BackingField:
     serializedVersion: 2
     m_Curve:
