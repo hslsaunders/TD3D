@@ -229,7 +229,7 @@ MonoBehaviour:
     m_authoring:
     - enabled: 1
       value:
-        rid: 8054022330781007886
+        rid: 7523943977779986472
     - enabled: 1
       value:
         rid: 8054022330781007889
@@ -301,15 +301,15 @@ MonoBehaviour:
       type: {class: BarrageTurretConfigRef, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:
         value: {fileID: 11400000, guid: a6f173c5d1173c14e9250531e0c36c6f, type: 2}
+    - rid: 7523943977779986472
+      type: {class: AimAtTarget, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
+      data:
+        rotationSpeed: 65
     - rid: 8054022330781007884
       type: {class: FireCooldown, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:
         perMissileTime: 0
         barrageTime: 0
-    - rid: 8054022330781007886
-      type: {class: AimAtTarget, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
-      data:
-        rotationSpeed: 45
     - rid: 8054022330781007889
       type: {class: RotationPivot, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:

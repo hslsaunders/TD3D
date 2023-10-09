@@ -658,12 +658,20 @@ PrefabInstance:
       value: TD3D.Core.Runtime TD3D.Core.Runtime.Runtime.MovementSpeed
       objectReference: {fileID: 0}
     - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[7523943977779986474]
+      value: TD3D.Core.Runtime TD3D.Core.Runtime.Runtime.MovementSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
       propertyPath: m_inspector.m_authoring.Array.data[3].value
-      value: 7523943953613979678
+      value: 7523943977779986474
       objectReference: {fileID: 0}
     - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
       propertyPath: managedReferences[7523943953613979678].value
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[7523943977779986474].value
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6326858787473733716, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
       propertyPath: m_Name
@@ -817,6 +825,14 @@ PrefabInstance:
       propertyPath: managedReferences[7523943977779986465].camera
       value: 
       objectReference: {fileID: 7555036708565377764}
+    - target: {fileID: 7291806951303193039, guid: 6deb842dc04aa3e47ba04e055a0bef42, type: 3}
+      propertyPath: managedReferences[7523943977779986465].zoomProgress
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7291806951303193039, guid: 6deb842dc04aa3e47ba04e055a0bef42, type: 3}
+      propertyPath: managedReferences[7523943977779986465].lerpedZoomProgress
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7291806951303193039, guid: 6deb842dc04aa3e47ba04e055a0bef42, type: 3}
       propertyPath: managedReferences[7523943977779986465].unlerpedPosition.x
       value: 0
