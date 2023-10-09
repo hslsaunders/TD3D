@@ -30,6 +30,18 @@ namespace TD3D.Core.Runtime.Runtime {
 
             playerCam.unlerpedPosition += inputAxis * (config.MoveSpeed * delta);
             transform.position = Vector3.Lerp(transform.position, playerCam.unlerpedPosition, delta * config.LerpSpeed);
+
+            playerCam.zoomProgress = Mathf.Clamp(playerCam.zoomProgress + Input.mouseScrollDelta.y * delta * config.ZoomSpeed, 
+                                                 0f, 1f);
+
+            playerCam.lerpedZoomProgress = Mathf.Lerp(playerCam.lerpedZoomProgress, playerCam.zoomProgress, 
+                                                      config.ZoomLerpSpeed * delta);
+            
+            var camTransform = playerCam.camera.transform;
+            camTransform.localPosition = new Vector3(0f, config.ZoomYCurve.Evaluate(playerCam.lerpedZoomProgress),
+                                                     config.ZoomZCurve.Evaluate(playerCam.lerpedZoomProgress));
+            
+            camTransform.forward = -camTransform.localPosition;
         }
     }
 }

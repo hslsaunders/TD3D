@@ -245,6 +245,9 @@ MonoBehaviour:
     - enabled: 1
       value:
         rid: 7523943976608464907
+    - enabled: 1
+      value:
+        rid: 7523943977779986461
   m_isValidPrefab: 1
   m_persistentKey: Turret
   references:
@@ -253,10 +256,6 @@ MonoBehaviour:
     - rid: 7523943840125812756
       type: {class: BarrageTower, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:
-        fireDelay: 0.04
-        barrageDelay: 4
-        barrageSize: 16
-        barrageSpreadRange: 1.25
         fireSources:
         - rocketSpawnTransform: {fileID: 7343968695555085679}
           launchEffectTransform: {fileID: 0}
@@ -298,6 +297,10 @@ MonoBehaviour:
       type: {class: AttackRange, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:
         value: 8
+    - rid: 7523943977779986461
+      type: {class: BarrageTurretConfigRef, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
+      data:
+        value: {fileID: 11400000, guid: a6f173c5d1173c14e9250531e0c36c6f, type: 2}
     - rid: 8054022330781007884
       type: {class: FireCooldown, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:

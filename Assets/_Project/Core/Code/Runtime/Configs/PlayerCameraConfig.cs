@@ -8,5 +8,9 @@ namespace TD3D.Core.Runtime.Runtime.Configs {
     public sealed class PlayerCameraConfig : BaseConfig {
         [field: SerializeField] public float MoveSpeed { get; private set; }
         [field: SerializeField] public float LerpSpeed { get; private set; }
+        [field: SerializeField] public float ZoomSpeed { get; private set; }
+        [field: SerializeField] public float ZoomLerpSpeed { get; private set; }
+        [field: SerializeField] public AnimationCurve ZoomYCurve { get; private set; }
+        [field: SerializeField] public AnimationCurve ZoomZCurve { get; private set; }
     }
 }

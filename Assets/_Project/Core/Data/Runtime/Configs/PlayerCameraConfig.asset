@@ -14,3 +14,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MoveSpeed>k__BackingField: 8
   <LerpSpeed>k__BackingField: 10
+  <ZoomSpeed>k__BackingField: 15
+  <ZoomLerpSpeed>k__BackingField: 3
+  <ZoomYCurve>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 39
+      inSlope: -29.037746
+      outSlope: -29.037746
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.06790123
+    - serializedVersion: 3
+      time: 1
+      value: 20
+      inSlope: -3.9986475
+      outSlope: -3.9986475
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06275725
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  <ZoomZCurve>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -14
+      inSlope: -25.891132
+      outSlope: -25.891132
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.03497942
+    - serializedVersion: 3
+      time: 1
+      value: -26
+      inSlope: -5.33522
+      outSlope: -5.33522
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06790131
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

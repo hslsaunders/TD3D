@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace TD3D.Core.Runtime.Runtime {
     public struct PlayerCamera : IEcsComponent {
+        public Camera camera;
         [ReadOnly] public Vector3 unlerpedPosition;
+        [ReadOnly] public float zoomProgress;
+        [ReadOnly] public float lerpedZoomProgress;
     }
 }

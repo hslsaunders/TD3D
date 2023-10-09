@@ -15,13 +15,15 @@ namespace TD3D.Core.Runtime.Runtime {
                                                              .With<BarrageTower>()
                                                              .With<FireCooldown>()
                                                              .With<TurretTargetHolder>()
-                                                             .With<RotationPivot>()) { }
+                                                             .With<RotationPivot>()
+                                                             .With<BarrageTurretConfigRef>()) { }
 
         protected override void IterateEntity(World world, in Entity entity, float delta) {
             ref var tower = ref entity.Get<BarrageTower>();
             ref var fireCooldown = ref entity.Get<FireCooldown>();
             ref var targetHolder = ref entity.Get<TurretTargetHolder>();
             ref var source = ref entity.Get<RotationPivot>().value;
+            var config = entity.Get<BarrageTurretConfigRef>().value;
             
             if (fireCooldown.barrageTime >= 0f)
                 fireCooldown.barrageTime -= delta;
@@ -43,7 +45,7 @@ namespace TD3D.Core.Runtime.Runtime {
                     
                     Vector3 sourcePos = fireSource.rocketSpawnTransform.position;
 
-                    Vector3 randomTargetOffset = Random.insideUnitSphere * tower.barrageSpreadRange;
+                    Vector3 randomTargetOffset = Random.insideUnitSphere * config.barrageSpreadRange;
                     randomTargetOffset.y = 0f;
                     Vector3 targetPos = targetEntityPos + randomTargetOffset + new Vector3(0f, 1f, 0f);
 
@@ -60,18 +62,17 @@ namespace TD3D.Core.Runtime.Runtime {
                     
                     rocket.curve = new BezierCurve(sourcePos, targetPos, 
                                                    new List<Vector3> { launchControlPoint, curveControlPoint });
-                    //rocket.travelTime = .6f;
                     
                     rocketTransform.position = sourcePos;
                     rocketTransform.forward = rocket.curve.EvaluateCurveTangent(0f);
 
                     tower.currBarrageCount++;
-                    if (tower.currBarrageCount >= tower.barrageSize) {
-                        fireCooldown.barrageTime += tower.barrageDelay;
+                    if (tower.currBarrageCount >= config.barrageSize) {
+                        fireCooldown.barrageTime += config.barrageDelay;
                         tower.currBarrageCount = 0;
                     }
 
-                    fireCooldown.perMissileTime += tower.fireDelay;
+                    fireCooldown.perMissileTime += config.fireDelay;
                 }
 
                 if (fireCooldown.perMissileTime >= 0f)
