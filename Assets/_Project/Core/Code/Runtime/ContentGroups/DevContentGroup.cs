@@ -12,5 +12,7 @@ namespace TD3D.Core.Runtime.Runtime.ContentGroups {
         public ContentRef<GameObject> BarrageRocket { get; private set; }
         [field: SerializeField, ContentRefField]
         public ContentRef<GameObject> Explosion { get; private set; }
+        [field: SerializeField, ContentRefField]
+        public ContentRef<GameObject> SmokePlume { get; private set; }
     }
 }

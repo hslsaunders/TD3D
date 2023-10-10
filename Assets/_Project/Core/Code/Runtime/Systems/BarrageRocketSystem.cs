@@ -1,10 +1,11 @@
-﻿using TD3D.Core.Runtime.Runtime.ContentGroups;
+﻿using TD3D.Core.Runtime.Runtime;
+using TD3D.Core.Runtime.Runtime.ContentGroups;
 using UFlow.Addon.ECS.Core.Runtime;
 using UFlow.Core.Runtime;
 using UnityEngine;
 using UnityEngine.Scripting;
 
-namespace TD3D.Core.Runtime.Runtime {
+namespace TD3D.Core.Runtime {
     [Preserve]
     [ExecuteInWorld(typeof(DefaultWorld))]
     [ExecuteInGroup(typeof(FrameSimulationSystemGroup))]

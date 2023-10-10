@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using TD3D.Core.Runtime.Runtime;
 using TD3D.Core.Runtime.Runtime.ContentGroups;
 using UFlow.Addon.ECS.Core.Runtime;
 using UFlow.Core.Runtime;
 using UnityEngine;
 using UnityEngine.Scripting;
 
-namespace TD3D.Core.Runtime.Runtime {
+namespace TD3D.Core.Runtime {
     [Preserve]
     [ExecuteInWorld(typeof(DefaultWorld))]
     [ExecuteInGroup(typeof(FrameSimulationSystemGroup))]
@@ -33,7 +34,7 @@ namespace TD3D.Core.Runtime.Runtime {
                     var rocketEntity = DevContentGroup.Get().BarrageRocket.Instantiate().AsEntity();
                     ref var rocket = ref rocketEntity.Get<BarrageRocket>();
                     ref var rocketTransform = ref rocketEntity.Get<TransformRef>().value;
-                    
+
                     Vector3 targetEntityPos = targetHolder.targetEntity.Get<TransformRef>().value.position;
                     
                     Vector3 displacement = targetEntityPos - source.position;
@@ -43,7 +44,7 @@ namespace TD3D.Core.Runtime.Runtime {
 
                     var fireSource = tower.fireSources[tower.currBarrageCount];
                     
-                    Vector3 sourcePos = fireSource.rocketSpawnTransform.position;
+                    Vector3 sourcePos = fireSource.position;
 
                     Vector3 randomTargetOffset = Random.insideUnitSphere * config.barrageSpreadRange;
                     randomTargetOffset.y = 0f;
@@ -66,6 +67,12 @@ namespace TD3D.Core.Runtime.Runtime {
                     rocketTransform.position = sourcePos;
                     rocketTransform.forward = rocket.curve.EvaluateCurveTangent(0f);
 
+                    /* REVERSE SMOKE PLUME
+                    var reversePlume = DevContentGroup.Get().SmokePlume.Instantiate();
+                    reversePlume.transform.position = fireSource.position + -launchDirection * tower.smokePlumeDistance;
+                    reversePlume.transform.forward = -launchDirection;
+                    */
+                    
                     tower.currBarrageCount++;
                     if (tower.currBarrageCount >= config.barrageSize) {
                         fireCooldown.barrageTime += config.barrageDelay;
