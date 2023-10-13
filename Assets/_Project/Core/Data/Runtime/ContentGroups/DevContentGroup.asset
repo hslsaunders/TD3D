@@ -39,3 +39,12 @@ MonoBehaviour:
         m_SubObjectName: 
         m_SubObjectType: 
         m_EditorAssetChanged: 0
+  <SmokePlume>k__BackingField:
+    <AssetReference>k__BackingField:
+      m_asset:
+        value: {fileID: 2856922916872688801, guid: 0ba65b5c12c3e7146b6765003c2051fa, type: 3}
+      <Value>k__BackingField:
+        m_AssetGUID: 0ba65b5c12c3e7146b6765003c2051fa
+        m_SubObjectName: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0

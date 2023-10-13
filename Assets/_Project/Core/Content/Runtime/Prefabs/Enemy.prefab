@@ -76,8 +76,8 @@ MonoBehaviour:
       type: {class: PathMovement, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:
         pathPoints:
-        - {x: -6, y: 0, z: 6}
-        - {x: 6, y: 0, z: 6}
+        - {x: -6, y: 0, z: 6.5}
+        - {x: 6, y: 0, z: 6.5}
         pathPointIndex: 0
     - rid: 7523943953613979675
       type: {class: MovementSpeed, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}

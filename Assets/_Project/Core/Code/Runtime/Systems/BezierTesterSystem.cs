@@ -1,8 +1,9 @@
-﻿using UFlow.Addon.ECS.Core.Runtime;
+﻿using TD3D.Core.Runtime.Runtime;
+using UFlow.Addon.ECS.Core.Runtime;
 using UnityEngine;
 using UnityEngine.Scripting;
 
-namespace TD3D.Core.Runtime.Runtime {
+namespace TD3D.Core.Runtime {
     [Preserve]
     [ExecuteInWorld(typeof(DefaultWorld))]
     [ExecuteInGroup(typeof(GizmoSystemGroup))]
