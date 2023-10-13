@@ -7,5 +7,6 @@ namespace TD3D.Core.Runtime.Runtime {
     public struct PathMovement : IEcsComponent {
         public List<Vector3> pathPoints;
         [ReadOnly] public int pathPointIndex;
+        [ReadOnly] public Vector3 direction;
     }
 }

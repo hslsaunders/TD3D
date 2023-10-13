@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6803098805566611412}
+  - {fileID: 5968403851678652473}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -60,6 +60,7 @@ MonoBehaviour:
     - enabled: 1
       value:
         rid: 7523943953613979675
+    m_runtime: []
   m_isValidPrefab: 1
   m_persistentKey: Enemy
   references:
@@ -82,7 +83,7 @@ MonoBehaviour:
       type: {class: MovementSpeed, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
       data:
         value: 1
---- !u!1001 &6477248480247281727
+--- !u!1001 &6151563955050151890
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -138,13 +139,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: MDL_UNIT_Mech
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: b738aaffbfaab6345be38c5a6baa7003, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 093996e79ebcd534fb7e3b5e80e06358, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b738aaffbfaab6345be38c5a6baa7003, type: 3}
---- !u!4 &6803098805566611412 stripped
+--- !u!4 &5968403851678652473 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b738aaffbfaab6345be38c5a6baa7003, type: 3}
-  m_PrefabInstance: {fileID: 6477248480247281727}
+  m_PrefabInstance: {fileID: 6151563955050151890}
   m_PrefabAsset: {fileID: 0}
