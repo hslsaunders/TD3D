@@ -54,6 +54,7 @@ MonoBehaviour:
     - enabled: 1
       value:
         rid: 7523943977779986458
+    m_runtime: []
   m_isValidPrefab: 1
   m_persistentKey: Camera
   references:
@@ -137,7 +138,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 17.14237
+  field of view: 23.140917
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
