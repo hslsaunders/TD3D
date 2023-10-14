@@ -271,6 +271,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2887872102541471735}
+  - component: {fileID: 9216265223333294970}
   m_Layer: 0
   m_Name: CurveEditor
   m_TagString: Untagged
@@ -293,6 +294,18 @@ Transform:
   m_Father: {fileID: 4907997099102133505}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9216265223333294970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7571875488653214911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f1dac6ec1484b9e9ebc769e51fcf5ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8268709712772598618
 GameObject:
   m_ObjectHideFlags: 0
