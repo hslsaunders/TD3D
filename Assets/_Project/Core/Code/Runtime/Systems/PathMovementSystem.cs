@@ -16,7 +16,7 @@ namespace TD3D.Core.Runtime {
         protected override void IterateEntity(World world, in Entity entity, float delta) {
             var transform = entity.Get<TransformRef>().value;
             ref var movement = ref entity.Get<PathMovement>();
-            float moveSpeed = entity.Get<MovementSpeed>().value;
+            var moveSpeed = entity.Get<MovementSpeed>().value;
             
             if (movement.pathPoints.Count == 0) return;
 
@@ -24,13 +24,16 @@ namespace TD3D.Core.Runtime {
                 transform.position = movement.pathPoints[0];
             }
 
-            float dist = moveSpeed * delta;
+            var dist = moveSpeed * delta;
             while (dist > 0f) {
-                Vector3 nextTargetPos = movement.pathPoints[movement.pathPointIndex];
-                Vector3 nextTargetPosOffset = nextTargetPos - transform.position;
-                Vector3 dir = nextTargetPosOffset.normalized;
-                float actualTravelDist = Mathf.Min(dist, nextTargetPosOffset.magnitude);
-                transform.position += dir * actualTravelDist;
+                var nextTargetPos = movement.pathPoints[movement.pathPointIndex];
+                var position = transform.position;
+                var nextTargetPosOffset = nextTargetPos - position;
+                movement.direction = nextTargetPosOffset.normalized;
+                var actualTravelDist = Mathf.Min(dist, nextTargetPosOffset.magnitude);
+                position += movement.direction * actualTravelDist;
+                transform.position = position;
+                transform.forward = movement.direction;
                 dist -= actualTravelDist;
                 if (Vector3.Distance(transform.position, nextTargetPos) < .01f)
                     movement.pathPointIndex = (movement.pathPointIndex + 1) % movement.pathPoints.Count;

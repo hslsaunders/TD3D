@@ -115,7 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4544496658523938188}
   - component: {fileID: 640799893184330988}
-  - component: {fileID: 280182167650528142}
+  - component: {fileID: 9028611801275039073}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -200,7 +200,7 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &280182167650528142
+--- !u!114 &9028611801275039073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -258,54 +258,9 @@ Transform:
   - {fileID: 618168675499961463}
   - {fileID: 1471379516078569192}
   - {fileID: 5679390689934732068}
-  - {fileID: 2887872102541471735}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7571875488653214911
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2887872102541471735}
-  - component: {fileID: 9216265223333294970}
-  m_Layer: 0
-  m_Name: CurveEditor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2887872102541471735
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7571875488653214911}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4907997099102133505}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9216265223333294970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7571875488653214911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f1dac6ec1484b9e9ebc769e51fcf5ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8268709712772598618
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,6 +611,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316815]
+      value: TD3D.Core.Runtime TD3D.Core.Runtime.Runtime.MovementSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316820]
+      value: TD3D.Core.Runtime TD3D.Core.Runtime.Runtime.MovementSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316822]
+      value: TD3D.Core.Runtime TD3D.Core.Runtime.Runtime.MovementSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316824]
+      value: TD3D.Core.Runtime TD3D.Core.Runtime.Runtime.MovementSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: m_inspector.m_authoring.Array.data[3].value
+      value: 5236669615066316824
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316815].value
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316820].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316822].value
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316824].value
+      value: 1.75
+      objectReference: {fileID: 0}
     - target: {fileID: 6326858787473733716, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
       propertyPath: m_Name
       value: Enemy
@@ -723,6 +714,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316817]
+      value: TD3D.Core.Runtime TD3D.Core.Runtime.Runtime.MovementSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316819]
+      value: TD3D.Core.Runtime TD3D.Core.Runtime.Runtime.MovementSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316821]
+      value: TD3D.Core.Runtime TD3D.Core.Runtime.Runtime.MovementSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316823]
+      value: TD3D.Core.Runtime TD3D.Core.Runtime.Runtime.MovementSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
       propertyPath: managedReferences[7523943953613979678]
       value: TD3D.Core.Runtime TD3D.Core.Runtime.Runtime.MovementSpeed
       objectReference: {fileID: 0}
@@ -732,7 +739,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
       propertyPath: m_inspector.m_authoring.Array.data[3].value
-      value: 7523943977779986474
+      value: 5236669615066316823
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316817].value
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316819].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316821].value
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[5236669615066316823].value
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
       propertyPath: managedReferences[7523943953613979678].value
@@ -741,6 +764,22 @@ PrefabInstance:
     - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
       propertyPath: managedReferences[7523943977779986474].value
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[7523943953613979670].pathPoints.Array.data[0].x
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[7523943953613979670].pathPoints.Array.data[0].z
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[7523943953613979670].pathPoints.Array.data[1].x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2704111320322546918, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
+      propertyPath: managedReferences[7523943953613979670].pathPoints.Array.data[1].z
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6326858787473733716, guid: b5ebbb323a7d16e43998ed17545d7d03, type: 3}
       propertyPath: m_Name
