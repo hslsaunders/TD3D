@@ -8,10 +8,22 @@ namespace TD3D.Core.Editor {
     public class CurveEditor : UnityEditor.Editor {
         private CurveCreator m_curveCreator;
         private BezierCurve m_curve;
-        
+
         private bool m_selectionFoldoutGroup;
         private AnchorOptions m_currAnchorOptions;
+        private bool m_queueUpdateAnchorOptions;
 
+        private void EnsureTargetSet() {
+            if (m_curveCreator == null || m_curveCreator.curve == null) {
+                m_curveCreator = (CurveCreator)target;
+                if (m_curveCreator.curve == null || m_curveCreator.curve.controlPoints == null ||
+                    m_curveCreator.curve.controlPoints.Count < 4)
+                    ResetCurve();
+                m_curve = m_curveCreator.curve;
+                System.Diagnostics.Debug.Assert(m_curve != null, nameof(m_curve) + " != null");
+            }
+        }
+        
         private void ResetCurve() {
             m_curveCreator.curve = new BezierCurve(new List<Vector3> {
                 new(-1f, 1f, 0f), new(0f, 1f, 0f),
@@ -22,23 +34,36 @@ namespace TD3D.Core.Editor {
         }
 
         public override void OnInspectorGUI() {
+            EnsureTargetSet();
+            
             base.OnInspectorGUI();
+            m_curveCreator.snapping = EditorGUILayout.Toggle("Snapping: ", m_curveCreator.snapping);
+            if (m_curveCreator.snapping) {
+                m_curveCreator.snappingSize = EditorGUILayout.FloatField("Snapping Size:", m_curveCreator.snappingSize);
+                m_curveCreator.snappingSize = Mathf.Max(m_curveCreator.snappingSize, 0f);
+            }
+            
             m_selectionFoldoutGroup = EditorGUILayout.BeginFoldoutHeaderGroup(m_selectionFoldoutGroup, "Anchor Selection Options");
             if (m_selectionFoldoutGroup) {
                 m_currAnchorOptions.dimensionLockValues = EditorGUILayout.Vector3Field("Dimension Locks", 
                                                                                        m_currAnchorOptions.dimensionLockValues);
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.PrefixLabel("Lock:");
-                var newLockX = EditorGUILayout.Toggle(m_currAnchorOptions.lockX);
-                var newLockY = EditorGUILayout.Toggle(m_currAnchorOptions.lockY);
-                var newLockZ = EditorGUILayout.Toggle(m_currAnchorOptions.lockZ);
-                if (newLockX != m_currAnchorOptions.lockX || newLockY != m_currAnchorOptions.lockX ||
-                    newLockZ != m_currAnchorOptions.lockZ) {
-                    
+                ref var lockX = ref m_currAnchorOptions.lockX;
+                ref var lockY = ref m_currAnchorOptions.lockY;
+                ref var lockZ = ref m_currAnchorOptions.lockZ;
+                
+                var newLockX = EditorGUILayout.Toggle(lockX);
+                var newLockY = EditorGUILayout.Toggle(lockY);
+                var newLockZ = EditorGUILayout.Toggle(lockZ);
+                bool optionsChanged = newLockX != lockX || newLockY != lockY ||
+                                      newLockZ != lockZ;
+                lockX = newLockX;
+                lockY = newLockY;
+                lockZ = newLockZ;
+                if (optionsChanged) {
+                    ApplyAnchorOptions();
                 }
-                m_currAnchorOptions.lockX = newLockX;
-                m_currAnchorOptions.lockY = newLockY;
-                m_currAnchorOptions.lockZ = newLockZ;
                 GUILayout.FlexibleSpace();
                 EditorGUILayout.EndHorizontal();
 
@@ -56,6 +81,17 @@ namespace TD3D.Core.Editor {
             //    ResetCurve();
         }
 
+        private void ApplyAnchorOptions() {
+            foreach (ControlPoint controlPoint in m_curve.controlPoints) {
+                controlPoint.lockX = m_currAnchorOptions.lockX;
+                controlPoint.lockY = m_currAnchorOptions.lockY;
+                controlPoint.lockZ = m_currAnchorOptions.lockZ;
+                controlPoint.lockValues.x = controlPoint.lockX ? m_currAnchorOptions.dimensionLockValues.x : 0f;
+                controlPoint.lockValues.y = controlPoint.lockY ? m_currAnchorOptions.dimensionLockValues.y : 0f;
+                controlPoint.lockValues.z = controlPoint.lockZ ? m_currAnchorOptions.dimensionLockValues.z : 0f;
+            }
+        }
+
         private void DrawAnchorLockOption(ref float dimensionValue, ref bool lockState, string label) {
             EditorGUILayout.BeginVertical();
             dimensionValue = EditorGUILayout.FloatField(label, dimensionValue);
@@ -66,28 +102,45 @@ namespace TD3D.Core.Editor {
 
         private void DrawAnchor(int anchorIndex) {
             Handles.color = Color.white;
+            ControlPoint anchor = m_curve[anchorIndex];
             ref Vector3 anchorPos = ref m_curve[anchorIndex].point;
+            /*
             if (Handles.Button(anchorPos, Quaternion.identity, .075f, .075f, Handles.SphereHandleCap)) {
                 Debug.Log("hit");
             }
+            */
             
             Handles.color = Color.red;
-            Vector3 newAnchorPos = Handles.FreeMoveHandle(anchorPos,
-                                                          .1f, Vector3.zero, Handles.SphereHandleCap);
+            Vector3 newAnchorPos = Handles.FreeMoveHandle(ConstrainPosWithLocks(anchorPos, anchor.lockX, anchor.lockY, anchor.lockZ,
+                                                                                anchor.lockValues),
+                                                          m_curveCreator.anchorSize, 
+                                                          Vector3.zero, 
+                                                          Handles.SphereHandleCap);
+            
 
             if (newAnchorPos != anchorPos) {
                 Undo.RecordObject(m_curveCreator, "Move Anchor Point");
+                if (m_curveCreator.snapping && m_curveCreator.snappingSize > 0f) 
+                    newAnchorPos = SnapToGrid(newAnchorPos, m_curveCreator.snappingSize);
                 m_curve.MoveControlPoint(anchorIndex, newAnchorPos);
             }
         }
 
         private void DrawControlPoint(int controlPointIndex) {
             Handles.color = Color.white;
-            ref Vector3 controlPointPos = ref m_curve[controlPointIndex].point;
-            Vector3 newControlPos = Handles.FreeMoveHandle(controlPointPos,
-                                                           .1f, Vector3.zero, Handles.SphereHandleCap);
+
+            var controlPoint = m_curve[controlPointIndex];
+            ref var controlPointPos = ref controlPoint.point;
+            Vector3 newControlPos = Handles.FreeMoveHandle(ConstrainPosWithLocks(controlPointPos, controlPoint.lockX, controlPoint.lockY, controlPoint.lockZ,
+                                                                                 controlPoint.lockValues),
+                                                           m_curveCreator.controlPointSize, 
+                                                           Vector3.zero, 
+                                                           Handles.SphereHandleCap);
+
             if (controlPointPos != newControlPos) {
                 Undo.RecordObject(m_curveCreator, "Move Control Point");
+                if (m_curveCreator.snapping && m_curveCreator.snappingSize > 0f) 
+                    newControlPos = SnapToGrid(newControlPos, m_curveCreator.snappingSize);
                 m_curve.MoveControlPoint(controlPointIndex, newControlPos);
             }
 
@@ -96,21 +149,30 @@ namespace TD3D.Core.Editor {
             Handles.DrawLine(controlPointPos, anchorPos);
         }
 
+        private Vector3 ConstrainPosWithLocks(Vector3 pos, bool lockX, bool lockY, bool lockZ, Vector3 lockValues) {
+            if (lockX)
+                pos.x = lockValues.x;
+            if (lockY)
+                pos.y = lockValues.y;
+            if (lockZ)
+                pos.z = lockValues.z;
+            return pos;
+        }
+
+        private Vector3 SnapToGrid(Vector3 pos, float snappingSize) {
+            return new Vector3(Mathf.RoundToInt(pos.x / snappingSize), 
+                               Mathf.RoundToInt(pos.y / snappingSize), 
+                               Mathf.RoundToInt(pos.z / snappingSize))
+                   * snappingSize;
+        }
+
         private void OnSceneGUI() {
-            if (m_curveCreator == null || m_curveCreator.curve == null) {
-                m_curveCreator = (CurveCreator)target;
-                if (m_curveCreator.curve == null || m_curveCreator.curve.controlPoints == null || 
-                    m_curveCreator.curve.controlPoints.Count < 4)
-                    ResetCurve();
-                m_curve = m_curveCreator.curve;
-                System.Diagnostics.Debug.Assert(m_curve != null, nameof(m_curve) + " != null");
-            }
+            EnsureTargetSet();
 
             Event guiEvent = Event.current;
             if (guiEvent.type == EventType.MouseDown && guiEvent.button == 0 && guiEvent.shift) {
                 Vector3 raycastPoint = HandleUtility.GUIPointToWorldRay(guiEvent.mousePosition).origin;
                 Undo.RecordObject(m_curveCreator, "Add New Anchor");
-                
                 m_curve.AppendNewAnchorWithControlPoint(raycastPoint);
             }
             

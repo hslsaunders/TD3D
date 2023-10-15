@@ -32,7 +32,7 @@ namespace TD3D.Core.Runtime {
         public void MoveControlPoint(int index, Vector3 newPos) {
             ref Vector3 controlPoint = ref controlPoints[index].point;
             Vector3 offset = newPos - controlPoint;
-
+            
             controlPoint = newPos;
             if (IsAnchor(index)) {
                 if (index != controlPoints.Count - 1)
@@ -46,9 +46,10 @@ namespace TD3D.Core.Runtime {
                 Vector3 anchorPos = controlPoints[index + anchorListDirection].point;
                 var otherControlPointDistToAnchor = Vector3.Distance(otherControlPoint, anchorPos);
 
-                Vector3 newDirToAnchor = (anchorPos - newPos).normalized;
+                Vector3 offsetFromAnchor = anchorPos - newPos;
+                Vector3 newDirToAnchor = offsetFromAnchor.normalized;
 
-                otherControlPoint = anchorPos + newDirToAnchor * otherControlPointDistToAnchor;
+                otherControlPoint = anchorPos + offsetFromAnchor;
             }
         }
 
@@ -134,6 +135,7 @@ namespace TD3D.Core.Runtime {
     public class ControlPoint {
         public Vector3 point;
         public float weight;
+        public Vector3 lockValues;
         public bool lockX;
         public bool lockY;
         public bool lockZ;

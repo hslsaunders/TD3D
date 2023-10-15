@@ -79,27 +79,70 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve:
     controlPoints:
-    - point: {x: -0.68895644, y: 0.033805847, z: -0.042585373}
+    - point: {x: -3, y: 0, z: 10}
       weight: 1
+      lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 0
+      lockY: 1
       lockZ: 0
-    - point: {x: 0.69875085, y: 0.010562956, z: -0.5511763}
+    - point: {x: 0, y: 0, z: 10}
       weight: 1
+      lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 0
+      lockY: 1
       lockZ: 0
-    - point: {x: 1.3710556, y: 0.09389718, z: 1.777537}
+    - point: {x: 0, y: 0, z: 6}
       weight: 1
+      lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 0
+      lockY: 1
       lockZ: 0
-    - point: {x: 2.5838578, y: 0.02091074, z: 0.7825877}
+    - point: {x: 0, y: 0, z: 4}
       weight: 1
+      lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 0
+      lockY: 1
       lockZ: 0
-  selectedControlPoints: []
+    - point: {x: 0, y: 0, z: 2}
+      weight: 1
+      lockValues: {x: 0, y: 0, z: 0}
+      lockX: 0
+      lockY: 1
+      lockZ: 0
+    - point: {x: -2, y: 0, z: 3}
+      weight: 1
+      lockValues: {x: 0, y: 0, z: 0}
+      lockX: 0
+      lockY: 1
+      lockZ: 0
+    - point: {x: -2, y: 0, z: -1}
+      weight: 1
+      lockValues: {x: 0, y: 0, z: 0}
+      lockX: 0
+      lockY: 1
+      lockZ: 0
+    - point: {x: -2, y: 0, z: -5}
+      weight: 1
+      lockValues: {x: 0, y: 0, z: 0}
+      lockX: 0
+      lockY: 1
+      lockZ: 0
+    - point: {x: 3, y: 0, z: -5}
+      weight: 1
+      lockValues: {x: 0, y: 0, z: 0}
+      lockX: 0
+      lockY: 1
+      lockZ: 0
+    - point: {x: 3, y: 0, z: -8}
+      weight: 1
+      lockValues: {x: 0, y: 0, z: 0}
+      lockX: 0
+      lockY: 1
+      lockZ: 0
+  anchorSize: 0.25
+  controlPointSize: 0.15
+  snapping: 1
+  snappingSize: 0.5
 --- !u!1 &9138904874038408868
 GameObject:
   m_ObjectHideFlags: 0
