@@ -2,20 +2,61 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TD3D.Core.Runtime.Runtime {
+namespace TD3D.Core.Runtime {
+    [Serializable]
     public sealed class BezierCurve {
-        public ControlPoint start;
-        public ControlPoint end;
-        public readonly List<ControlPoint> controlPoints = new();
+        public List<ControlPoint> controlPoints;
 
-        public BezierCurve(Vector3 start, Vector3 end, List<Vector3> controlPoints = null) {
-            this.start = new ControlPoint(start);
-            this.end = new ControlPoint(end);
-            
-            if (controlPoints == null) return;
-            foreach (var point in controlPoints) {
-                this.controlPoints.Add(new ControlPoint(point));
+        public BezierCurve(Vector3 start, Vector3 end) {
+            SetControlPoints(new List<Vector3>{start, end});
+        }
+
+        public BezierCurve(List<Vector3> points = null) {
+            if (points == null) return;
+            SetControlPoints(points);
+        }
+
+        public int NumSegments() => (controlPoints.Count - 4) / 3 + 1;
+        public int GetSegmentStart(int segmentIndex) => segmentIndex * 3;
+        public bool IsAnchor(int index) => index % 3 == 0;
+
+        public ControlPoint this[int i] => controlPoints[i];
+        
+        private void SetControlPoints(List<Vector3> points) {
+            controlPoints = new List<ControlPoint>();
+            foreach (var point in points) {
+                controlPoints.Add(new ControlPoint(point));
             }
+        }
+
+        public void MoveControlPoint(int index, Vector3 newPos) {
+            ref Vector3 controlPoint = ref controlPoints[index].point;
+            Vector3 offset = newPos - controlPoint;
+
+            controlPoint = newPos;
+            if (IsAnchor(index)) {
+                if (index != controlPoints.Count - 1)
+                    controlPoints[index + 1].point += offset;
+                if (index != 0)
+                    controlPoints[index - 1].point += offset;
+            }
+            else if (index != 1 && index != controlPoints.Count - 2) {
+                int anchorListDirection = (index - 1) % 3 == 0 ? -1 : 1;
+                ref Vector3 otherControlPoint = ref controlPoints[index + anchorListDirection * 2].point;
+                Vector3 anchorPos = controlPoints[index + anchorListDirection].point;
+                var otherControlPointDistToAnchor = Vector3.Distance(otherControlPoint, anchorPos);
+
+                Vector3 newDirToAnchor = (anchorPos - newPos).normalized;
+
+                otherControlPoint = anchorPos + newDirToAnchor * otherControlPointDistToAnchor;
+            }
+        }
+
+        public void AppendNewAnchorWithControlPoint(Vector3 pos) {
+            // p[^1] + (p[^1] - p[^2]) = 2 * p[^1] - p[^2]
+            controlPoints.Add(new ControlPoint(controlPoints[^1].point * 2f - controlPoints[^2].point));
+            controlPoints.Add(new ControlPoint(Vector3.Lerp(controlPoints[^1].point, pos, .5f)));
+            controlPoints.Add(new ControlPoint(pos));
         }
 
         private Vector3 SumControlPoints(float t)
@@ -23,12 +64,10 @@ namespace TD3D.Core.Runtime.Runtime {
             Vector3 sum = Vector3.zero;
             int numPoints = controlPoints.Count;
 
-            sum += Mathf.Pow(1 - t, numPoints + 1) * start.weight * start.point; 
-            sum += Mathf.Pow(t, numPoints + 1) * end.weight * end.point;
-
-            int index = 0;
+            sum += Mathf.Pow(1 - t, numPoints + 1) * controlPoints[0].weight * controlPoints[0].point; 
+            sum += Mathf.Pow(t, numPoints + 1) * controlPoints[^1].weight * controlPoints[^1].point;
             
-            for (; index < numPoints; index++)
+            for (int index = 1; index < numPoints - 1; index++)
             {
                 ControlPoint point = controlPoints[index];
                 sum += (numPoints + 1) * Mathf.Pow(1 - t, numPoints - index) * Mathf.Pow(t, index + 1)
@@ -44,16 +83,17 @@ namespace TD3D.Core.Runtime.Runtime {
             int numPoints = controlPoints.Count;
 
             float weightDivisor = 0f;
-            weightDivisor += start.weight * Mathf.Pow(1 - t, numPoints + 1);
-            weightDivisor += end.weight * Mathf.Pow(t, numPoints + 1);
+            
+            weightDivisor += controlPoints[0].weight * Mathf.Pow(1 - t, numPoints + 1);
+            weightDivisor += controlPoints[^1].weight * Mathf.Pow(t, numPoints + 1);
 
-            for (int index = 0; index < numPoints; index++)
+            for (int index = 1; index < numPoints - 1; index++)
                 weightDivisor += (numPoints + 1) 
                                  * Mathf.Pow(1 - t, numPoints - index) * Mathf.Pow(t, index + 1)
                                  * controlPoints[index].weight;
 
             if (Math.Abs(weightDivisor) < .0001f)
-                return start.point;
+                return controlPoints[0].point;
             return vectorSum / weightDivisor;
         }
 
@@ -91,9 +131,12 @@ namespace TD3D.Core.Runtime.Runtime {
     }
 
     [Serializable]
-    public struct ControlPoint {
+    public class ControlPoint {
         public Vector3 point;
         public float weight;
+        public bool lockX;
+        public bool lockY;
+        public bool lockZ;
 
         public ControlPoint(Vector3 point, float weight = 1f) {
             this.point = point;

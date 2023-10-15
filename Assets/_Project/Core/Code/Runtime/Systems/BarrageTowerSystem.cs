@@ -61,8 +61,8 @@ namespace TD3D.Core.Runtime {
                                   new Vector3(Random.Range(-distFromPointToEnd, distFromPointToEnd) * .6f, 
                                               Random.Range(-distFromPointToEnd, distFromPointToEnd) * .6f);
                     
-                    rocket.curve = new BezierCurve(sourcePos, targetPos, 
-                                                   new List<Vector3> { launchControlPoint, curveControlPoint });
+                    rocket.curve = new BezierCurve(
+                        new List<Vector3> { sourcePos, launchControlPoint, curveControlPoint, targetPos});
                     
                     rocketTransform.position = sourcePos;
                     rocketTransform.forward = rocket.curve.EvaluateCurveTangent(0f);

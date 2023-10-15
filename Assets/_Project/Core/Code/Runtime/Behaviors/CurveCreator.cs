@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace TD3D.Core.Runtime {
     public class CurveCreator : MonoBehaviour {
-        public Curve curve;
+        public BezierCurve curve;
+        public List<ControlPoint> selectedControlPoints = new();
     }
 }
