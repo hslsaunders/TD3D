@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 3537458288895549487}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 11.98, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -79,70 +79,74 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curve:
     controlPoints:
-    - point: {x: -3, y: 0, z: 10}
+    - point: {x: -8, y: 0, z: -1}
       weight: 1
       lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 1
+      lockY: 0
       lockZ: 0
-    - point: {x: 0, y: 0, z: 10}
+    - point: {x: -6, y: 0, z: -1}
       weight: 1
       lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 1
+      lockY: 0
       lockZ: 0
-    - point: {x: 0, y: 0, z: 6}
+    - point: {x: -6, y: 0, z: 1}
       weight: 1
       lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 1
+      lockY: 0
       lockZ: 0
-    - point: {x: 0, y: 0, z: 4}
+    - point: {x: -4, y: 0, z: 1}
       weight: 1
       lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 1
+      lockY: 0
       lockZ: 0
-    - point: {x: 0, y: 0, z: 2}
+    - point: {x: -2, y: 0, z: 1}
       weight: 1
       lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 1
-      lockZ: 0
-    - point: {x: -2, y: 0, z: 3}
-      weight: 1
-      lockValues: {x: 0, y: 0, z: 0}
-      lockX: 0
-      lockY: 1
+      lockY: 0
       lockZ: 0
     - point: {x: -2, y: 0, z: -1}
       weight: 1
       lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 1
+      lockY: 0
       lockZ: 0
-    - point: {x: -2, y: 0, z: -5}
+    - point: {x: 1, y: 0, z: -1}
       weight: 1
       lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 1
+      lockY: 0
       lockZ: 0
-    - point: {x: 3, y: 0, z: -5}
+    - point: {x: 4, y: 0, z: -1}
       weight: 1
       lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 1
+      lockY: 0
       lockZ: 0
-    - point: {x: 3, y: 0, z: -8}
+    - point: {x: 1, y: 0, z: 3}
       weight: 1
       lockValues: {x: 0, y: 0, z: 0}
       lockX: 0
-      lockY: 1
+      lockY: 0
+      lockZ: 0
+    - point: {x: 5, y: 0, z: 3}
+      weight: 1
+      lockValues: {x: 0, y: 0, z: 0}
+      lockX: 0
+      lockY: 0
       lockZ: 0
   anchorSize: 0.25
   controlPointSize: 0.15
   snapping: 1
   snappingSize: 0.5
+  showTestPoint: 1
+  m_testPointProgress: 0
+  m_testPointSize: 0.2
+  anchorOptionsFoldoutOpen: 1
 --- !u!1 &9138904874038408868
 GameObject:
   m_ObjectHideFlags: 0
