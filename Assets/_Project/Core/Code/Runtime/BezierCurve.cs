@@ -77,7 +77,7 @@ namespace TD3D.Core.Runtime {
             
             return sum;
         }
-        
+
         public Vector3 EvaluateCurvePoint(float t) {
             t = Mathf.Clamp(t, 0f, 1f);
             Vector3 vectorSum = SumControlPoints(t);
