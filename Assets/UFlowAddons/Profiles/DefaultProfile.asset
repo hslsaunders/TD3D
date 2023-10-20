@@ -10,14 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 81766daee6934016a98140c9872bac1a, type: 3}
-  m_Name: DefaultSettingsProfile
+  m_Name: DefaultProfile
   m_EditorClassIdentifier: 
-  m_serializedSettings: []
+  m_serializedSettings:
+  - {fileID: 6837181344258115502}
   m_types:
-  - UFlowAddons.Example.Core.Code.Runtime.ExampleAddonSettings, UFlow.Addon.Example.Core.Runtime,
-    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null, UFlow.Addon.Example.Core.Runtime,
+  - UFlow.Addon.ECS.Core.Runtime.ECSAddonSettings, UFlow.Addon.ECS.Core.Runtime,
+    Version=0.0.0.0, Culture=neutral, PublicKeyToken=null, UFlow.Addon.ECS.Core.Runtime,
     Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
---- !u!114 &3182975408979747697
+  allowAutoUpdate: 1
+--- !u!114 &6837181344258115502
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -26,7 +28,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0f6b2581ae545188f6edc91682f3277, type: 3}
-  m_Name: ExampleSettings(Clone)
+  m_Script: {fileID: 11500000, guid: 68d271c170e74160a2e09cc1b0ec74f3, type: 3}
+  m_Name: ECS
   m_EditorClassIdentifier: 
-  exampleSetting: Test
+  <EnableSerialization>k__BackingField: 0
+  <EnableRealtimeInspector>k__BackingField: 1

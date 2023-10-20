@@ -6,6 +6,10 @@ namespace TD3D.Core.Runtime {
     [Serializable]
     public sealed class BezierCurve {
         public List<ControlPoint> controlPoints;
+        public BakedBezierCurve bakedCurve;
+
+        public bool HasBakedCurve => bakedCurve != null;
+        public bool HasBakedCurrentCurve { get; private set; }
 
         public BezierCurve(Vector3 start, Vector3 end) {
             SetControlPoints(new List<Vector3>{start, end});
@@ -21,7 +25,12 @@ namespace TD3D.Core.Runtime {
         public bool IsAnchor(int index) => index % 3 == 0;
 
         public ControlPoint this[int i] => controlPoints[i];
-        
+
+        public void BakeCurve(float pointSpacing) {
+            bakedCurve = new BakedBezierCurve(this, pointSpacing);
+            HasBakedCurrentCurve = true;
+        }
+
         private void SetControlPoints(List<Vector3> points) {
             controlPoints = new List<ControlPoint>();
             foreach (var point in points) {
@@ -51,6 +60,8 @@ namespace TD3D.Core.Runtime {
 
                 otherControlPoint = anchorPos + offsetFromAnchor;
             }
+
+            HasBakedCurrentCurve = false;
         }
 
         public void AppendNewAnchorWithControlPoint(Vector3 pos) {

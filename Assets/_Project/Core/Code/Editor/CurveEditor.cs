@@ -50,6 +50,18 @@ namespace TD3D.Core.Editor {
             EnsureTargetSet();
             
             base.OnInspectorGUI();
+
+            if (GUILayout.Button("Bake Curve")) {
+                try {
+                    m_curve.BakeCurve(m_curveCreator.bakedCurveVertexSpacing);
+                }
+                catch {
+                    Debug.Log("Failed to bake");
+                }
+
+                SceneView.RepaintAll();
+            }
+
             m_curveCreator.snapping = EditorGUILayout.Toggle("Snapping: ", m_curveCreator.snapping);
             if (m_curveCreator.snapping) {
                 m_curveCreator.snappingSize = EditorGUILayout.FloatField("Snapping Size:", m_curveCreator.snappingSize);
@@ -77,6 +89,7 @@ namespace TD3D.Core.Editor {
                     lockY = newLockY;
                     lockZ = newLockZ;
                     ApplyAnchorOptions();
+                    SceneView.RepaintAll();
                 }
                 GUILayout.FlexibleSpace();
                 EditorGUILayout.EndHorizontal();
@@ -239,12 +252,16 @@ namespace TD3D.Core.Editor {
                                    segmentColor, null, 3f);
             }
 
-            int n = 300;
-            Vector3 last = m_curve.EvaluateCurvePoint(0f / n);
-            for (int i = 1; i <= n; i++) {
-                Vector3 curr = m_curve.EvaluateCurvePoint(i / (float)n);
-                Handles.DrawLine(last, curr);
-                last = curr;
+            if (m_curve.HasBakedCurve) {
+                /*
+                int n = 300;
+                Vector3 last = m_curve.EvaluateCurvePoint(0f / n);
+                for (int i = 1; i <= n; i++) {
+                    Vector3 curr = m_curve.EvaluateCurvePoint(i / (float)n);
+                    Handles.DrawLine(last, curr);
+                    last = curr;
+                }
+                */
             }
         }
     }
