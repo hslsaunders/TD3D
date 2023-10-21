@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace TD3D.Core.Runtime {
+    [Serializable]
     public class BakedBezierCurve {
         //private const float c_min_sampling_size = .01f;
         private const float c_divisions_per_unit_length = 10;
         
-        public readonly Vector3[] points;
-        public readonly Vector3[] tangents;
-        public readonly float[] cumulativeDistances;
-        public readonly float[] times;
-        public readonly float totalLength;
-        public readonly int numPoints;
+        public Vector3[] points;
+        public Vector3[] tangents;
+        public float[] cumulativeDistances;
+        public float[] times;
+        public float totalLength;
+        public int numPoints;
 
         public BakedBezierCurve(BezierCurve curve, float pointSpacing) {
             PathSplitData splitData = SplitPath(curve, pointSpacing);
@@ -29,6 +31,7 @@ namespace TD3D.Core.Runtime {
                 cumulativeDistances[i] = splitData.cumulativeDistances[i];
                 times[i] = cumulativeDistances[i] / totalLength;
             }
+            
         }
 
         private static PathSplitData SplitPath(BezierCurve curve, float pointSpacing) {
@@ -37,7 +40,7 @@ namespace TD3D.Core.Runtime {
             int numSegments = curve.NumSegments();
             float totalDist = 0f;
 
-            Vector3 prevPointOnPath = curve[0].point;
+            Vector3 prevPointAlongSegment = curve[0].point;
             Vector3 lastVertexPos = curve[0].point;
             Vector3 startTangent =
                 BezierCurveUtility.EvaluateCubicDerivative(curve[0].point, curve[1].point, curve[2].point, curve[3].point, 0f);
@@ -52,28 +55,27 @@ namespace TD3D.Core.Runtime {
 
                 float approxSegmentLength = BezierCurveUtility.ApproximateCurveLength(p0, p1, p2, p3);
                 int numDivisions = Mathf.CeilToInt(approxSegmentLength * c_divisions_per_unit_length);
-
                 float tIncrementSize = 1f / numDivisions;
 
-                for (float t = 0; t <= 1f; t += tIncrementSize) {
+                for (float t = tIncrementSize; t <= 1f; t += tIncrementSize) {
                     bool isLastPointOnEntireCurve = t + tIncrementSize >= 1f && segmentIndex == numSegments - 1;
                     
                     if (isLastPointOnEntireCurve) 
                         t = 1f;
                     
                     Vector3 pointAlongSegment = BezierCurveUtility.EvaluateCubic(p0, p1, p2, p3, t);
-                    distToLastVertex += (pointAlongSegment - prevPointOnPath).magnitude;
+                    distToLastVertex += Vector3.Distance(pointAlongSegment, prevPointAlongSegment);
 
                     if (distToLastVertex > pointSpacing) {
                         float overshootDistance = distToLastVertex - pointSpacing;
-                        pointAlongSegment += (prevPointOnPath - pointAlongSegment).normalized * overshootDistance;
+                        pointAlongSegment += (prevPointAlongSegment - pointAlongSegment).normalized * overshootDistance;
                         t -= tIncrementSize;
                     }
                     
                     if (distToLastVertex >= pointSpacing || isLastPointOnEntireCurve) {
                         float placementDist = Mathf.Min(pointSpacing, distToLastVertex);
                         
-                        Vector3 newVertexPoint = lastVertexPos + (pointAlongSegment - lastVertexPos) * placementDist;
+                        Vector3 newVertexPoint = lastVertexPos + (pointAlongSegment - lastVertexPos).normalized * placementDist;
                         Vector3 tangent = BezierCurveUtility.EvaluateCubicDerivative(p0, p1, p2, p3, t);
 
                         totalDist += placementDist;
@@ -82,10 +84,13 @@ namespace TD3D.Core.Runtime {
                         vertexCount++;
                         distToLastVertex = 0f;
                     }
+
+                    prevPointAlongSegment = pointAlongSegment;
                 }
             }
 
             data.numPoints = vertexCount;
+            data.totalLength = totalDist;
 
             return data;
         }
@@ -95,6 +100,12 @@ namespace TD3D.Core.Runtime {
             VertexPair pair = FindClosestVerticesToTime(t);
             return Vector3.Lerp(points[pair.v1Index], points[pair.v2Index], pair.percentageBetween);
         }
+        
+        public Vector3 EvaluateDirectionAtTime(float t) {
+            VertexPair pair = FindClosestVerticesToTime(t);
+            return Vector3.Lerp(tangents[pair.v1Index], tangents[pair.v2Index], pair.percentageBetween);
+        }
+
 
         private VertexPair FindClosestVerticesToTime(float t) {
             int prevIndex = 0;
@@ -105,15 +116,15 @@ namespace TD3D.Core.Runtime {
                     nextIndex = i;
                 else
                     prevIndex = i;
+                
+                i = (nextIndex + prevIndex) / 2;
 
                 if (nextIndex - prevIndex <= 1)
                     break;
-                
-                i = (nextIndex + prevIndex) / 2;
             }
 
             return new VertexPair(prevIndex, nextIndex, 
-                                  (t - times[prevIndex]) / (times[nextIndex] - times[prevIndex]));
+                                  Mathf.InverseLerp(times[prevIndex], times[nextIndex], t));
         }
         
         public Vector3 EvaluatePointAtDistance(float dist) {

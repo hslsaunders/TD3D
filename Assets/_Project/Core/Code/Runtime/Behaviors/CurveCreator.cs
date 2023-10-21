@@ -17,6 +17,7 @@ namespace TD3D.Core.Runtime {
         public bool showTestPoint;
         [ShowIf("showTestPoint")] [PropertyRange(0f, 1f), SerializeField] private float m_testPointProgress;
         [SerializeField] private float m_testPointSize = .25f;
+        [SerializeField] private float m_vertexDebugSize = .1f;
         public bool debugBakedCurveVertices;
         public AnchorOptions currAnchorOptions;
         [HideInInspector] public bool anchorOptionsFoldoutOpen;
@@ -29,13 +30,18 @@ namespace TD3D.Core.Runtime {
 #endif
         
         private void OnDrawGizmosSelected() {
-            if (showTestPoint)
-                Gizmos.DrawWireSphere(curve.EvaluateCurvePoint(m_testPointProgress),  m_testPointSize);
             if (curve.HasBakedCurve) {
                 if (debugBakedCurveVertices) {
                     for (int i = 0; i < curve.bakedCurve.numPoints; i++) {
-                        Gizmos.DrawWireSphere(curve.bakedCurve.points[i],  m_testPointSize);
+                        Gizmos.DrawWireSphere(curve.bakedCurve.points[i],  m_vertexDebugSize);
                     }
+                }
+                if (showTestPoint) {
+                    Vector3 point = curve.bakedCurve.EvaluatePointAtTime(m_testPointProgress);
+                    Gizmos.matrix =
+                        Matrix4x4.TRS(point, Quaternion.LookRotation(curve.bakedCurve.EvaluateDirectionAtTime(m_testPointProgress)),
+                                      Vector3.one);
+                    Gizmos.DrawWireSphere(Vector3.zero, m_testPointSize);
                 }
             }
         }

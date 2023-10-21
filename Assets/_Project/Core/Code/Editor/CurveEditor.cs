@@ -11,7 +11,9 @@ namespace TD3D.Core.Editor {
         private CurveCreator m_curveCreator;
         private BezierCurve m_curve;
         
+        [SerializeField, HideInInspector] private bool m_bakedWarningState;
         private bool m_queueUpdateAnchorOptions;
+        private bool m_queueUpdateBakedWarningState;
         private Camera camera;
 
         protected override void OnEnable() {
@@ -33,6 +35,8 @@ namespace TD3D.Core.Editor {
                     m_curveCreator.curve.controlPoints.Count < 4)
                     ResetCurve();
                 m_curve = m_curveCreator.curve;
+                m_curveCreator.curve!.OnCurveEdit = delegate { m_queueUpdateBakedWarningState = true; };
+                m_curveCreator.curve!.OnBake = delegate { m_queueUpdateBakedWarningState = true; };
                 System.Diagnostics.Debug.Assert(m_curve != null, nameof(m_curve) + " != null");
             }
         }
@@ -43,11 +47,19 @@ namespace TD3D.Core.Editor {
                 new(0f, -1f, 0f), new(1f, -1, 0f)
             });
             
+            m_curveCreator.curve.OnCurveEdit = delegate { m_queueUpdateBakedWarningState = true; };
+            m_curveCreator.curve!.OnBake = delegate { m_queueUpdateBakedWarningState = true; };
             m_curve = m_curveCreator.curve;
         }
 
         public override void OnInspectorGUI() {
             EnsureTargetSet();
+
+            if (m_queueUpdateBakedWarningState)
+                m_bakedWarningState = m_curve.IsCurrentCurveBaked();
+            
+            if (!m_bakedWarningState)
+                EditorGUILayout.HelpBox("Warning: Current curve is not baked.", MessageType.Warning);
             
             base.OnInspectorGUI();
 

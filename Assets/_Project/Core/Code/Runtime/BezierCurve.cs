@@ -8,8 +8,11 @@ namespace TD3D.Core.Runtime {
         public List<ControlPoint> controlPoints;
         public BakedBezierCurve bakedCurve;
 
+        public Action OnCurveEdit;
+        public Action OnBake;
+        
         public bool HasBakedCurve => bakedCurve != null;
-        public bool HasBakedCurrentCurve { get; private set; }
+        [SerializeField] private List<ControlPoint> m_lastBakedControlPointSet = new();
 
         public BezierCurve(Vector3 start, Vector3 end) {
             SetControlPoints(new List<Vector3>{start, end});
@@ -19,16 +22,32 @@ namespace TD3D.Core.Runtime {
             if (points == null) return;
             SetControlPoints(points);
         }
+        
+        public ControlPoint this[int i] => controlPoints[i];
 
         public int NumSegments() => (controlPoints.Count - 4) / 3 + 1;
         public int GetSegmentStart(int segmentIndex) => segmentIndex * 3;
         public bool IsAnchor(int index) => index % 3 == 0;
 
-        public ControlPoint this[int i] => controlPoints[i];
+        public bool IsCurrentCurveBaked() {
+            if (!HasBakedCurve)
+                return false;
+            for (var i = 0; i < controlPoints.Count; i++) {
+                var currPoint = controlPoints[i];
+                if (currPoint.point != m_lastBakedControlPointSet[i].point)
+                    return false;
+            }
+
+            return true;
+        }
 
         public void BakeCurve(float pointSpacing) {
+            m_lastBakedControlPointSet = new List<ControlPoint>();
+            foreach (var point in controlPoints)
+                m_lastBakedControlPointSet.Add(new ControlPoint(point));
+            
             bakedCurve = new BakedBezierCurve(this, pointSpacing);
-            HasBakedCurrentCurve = true;
+            OnBake?.Invoke();
         }
 
         private void SetControlPoints(List<Vector3> points) {
@@ -60,8 +79,8 @@ namespace TD3D.Core.Runtime {
 
                 otherControlPoint = anchorPos + offsetFromAnchor;
             }
-
-            HasBakedCurrentCurve = false;
+            
+            OnCurveEdit?.Invoke();
         }
 
         public void AppendNewAnchorWithControlPoint(Vector3 pos) {
@@ -143,7 +162,7 @@ namespace TD3D.Core.Runtime {
     }
 
     [Serializable]
-    public class ControlPoint {
+    public class ControlPoint : IEquatable<ControlPoint> {
         public Vector3 point;
         public float weight;
         public Vector3 lockValues;
@@ -154,6 +173,23 @@ namespace TD3D.Core.Runtime {
         public ControlPoint(Vector3 point, float weight = 1f) {
             this.point = point;
             this.weight = weight;
+        }
+
+        public ControlPoint(ControlPoint point) : this(point.point, point.weight)  { }
+
+        public bool Equals(ControlPoint other) {
+            if (ReferenceEquals(null, other)) return false;
+            return point.Equals(other.point) && weight.Equals(other.weight);
+        }
+
+        public override bool Equals(object obj) {
+            if (ReferenceEquals(null, obj)) return false;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((ControlPoint)obj);
+        }
+
+        public override int GetHashCode() {
+            return HashCode.Combine(point, weight, lockValues, lockX, lockY, lockZ);
         }
     }
 }
