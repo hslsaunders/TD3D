@@ -47,17 +47,36 @@ namespace TD3D.Core.Editor {
                 new(0f, -1f, 0f), new(1f, -1, 0f)
             });
             
-            m_curveCreator.curve.OnCurveEdit = delegate { m_queueUpdateBakedWarningState = true; };
+            m_curveCreator.curve.OnCurveEdit = delegate 
+            { 
+                m_queueUpdateBakedWarningState = true;
+                m_curveCreator.queueRebake = true;
+            };
             m_curveCreator.curve!.OnBake = delegate { m_queueUpdateBakedWarningState = true; };
             m_curve = m_curveCreator.curve;
+        }
+
+        private void BakeCurve() {
+            m_curve.BakeCurve(m_curveCreator.bakedCurveVertexSpacing, 
+                              m_curveCreator.currAnchorOptions.lockX,
+                              m_curveCreator.currAnchorOptions.lockY,
+                              m_curveCreator.currAnchorOptions.lockZ);
         }
 
         public override void OnInspectorGUI() {
             EnsureTargetSet();
 
-            if (m_queueUpdateBakedWarningState)
-                m_bakedWarningState = m_curve.IsCurrentCurveBaked();
+            if (m_curveCreator.queueRebake) {
+                m_curveCreator.queueRebake = false;
+                BakeCurve();
+                SceneView.RepaintAll();
+            }
             
+            if (m_queueUpdateBakedWarningState) {
+                m_queueUpdateBakedWarningState = false;
+                m_bakedWarningState = m_curve.IsCurrentCurveBaked();
+            }
+
             if (!m_bakedWarningState)
                 EditorGUILayout.HelpBox("Warning: Current curve is not baked.", MessageType.Warning);
             
@@ -65,7 +84,7 @@ namespace TD3D.Core.Editor {
 
             if (GUILayout.Button("Bake Curve")) {
                 try {
-                    m_curve.BakeCurve(m_curveCreator.bakedCurveVertexSpacing);
+                    BakeCurve();
                 }
                 catch {
                     Debug.Log("Failed to bake");
@@ -79,8 +98,20 @@ namespace TD3D.Core.Editor {
                 m_curveCreator.snappingSize = EditorGUILayout.FloatField("Snapping Size:", m_curveCreator.snappingSize);
                 m_curveCreator.snappingSize = Mathf.Max(m_curveCreator.snappingSize, 0f);
             }
-            
-            m_curveCreator.anchorOptionsFoldoutOpen = EditorGUILayout.BeginFoldoutHeaderGroup(m_curveCreator.anchorOptionsFoldoutOpen, "Anchor Selection Options");
+
+            if (m_curve.HasBakedCurve) {
+                m_curveCreator.bakedCurveInfoFoldoutOpen =
+                    EditorGUILayout.BeginFoldoutHeaderGroup(m_curveCreator.bakedCurveInfoFoldoutOpen, "Baked Curve Info");
+                if (m_curveCreator.bakedCurveInfoFoldoutOpen) {
+                    EditorGUILayout.LabelField("Length:", m_curve.bakedCurve.totalLength.ToString());
+                    EditorGUILayout.LabelField("Num Points:", m_curve.bakedCurve.numPoints.ToString());
+                }
+                
+                EditorGUILayout.EndFoldoutHeaderGroup();
+            }
+
+            m_curveCreator.anchorOptionsFoldoutOpen = 
+                EditorGUILayout.BeginFoldoutHeaderGroup(m_curveCreator.anchorOptionsFoldoutOpen, "Anchor Selection Options");
             if (m_curveCreator.anchorOptionsFoldoutOpen) {
                 m_curveCreator.currAnchorOptions.dimensionLockValues = EditorGUILayout.Vector3Field("Dimension Locks", 
                     m_curveCreator.currAnchorOptions.dimensionLockValues);
@@ -162,6 +193,7 @@ namespace TD3D.Core.Editor {
                 if (m_curveCreator.snapping && m_curveCreator.snappingSize > 0f) 
                     newAnchorPos = SnapToGrid(newAnchorPos, m_curveCreator.snappingSize);
                 m_curve.MoveControlPoint(anchorIndex, newAnchorPos);
+                m_curveCreator.QueueBakeCurve();
             }
         }
 
@@ -181,13 +213,14 @@ namespace TD3D.Core.Editor {
                 if (m_curveCreator.snapping && m_curveCreator.snappingSize > 0f) 
                     newControlPos = SnapToGrid(newControlPos, m_curveCreator.snappingSize);
                 m_curve.MoveControlPoint(controlPointIndex, newControlPos);
+                m_curveCreator.QueueBakeCurve();
             }
 
             int anchorIndex = (controlPointIndex - 1) % 3 == 0 ? controlPointIndex - 1 : controlPointIndex + 1;
             Vector3 anchorPos = m_curve[anchorIndex].point;
             Handles.DrawLine(controlPointPos, anchorPos);
         }
-
+        
         private Vector3 ConstrainPosWithLocks(Vector3 pos, bool lockX, bool lockY, bool lockZ, Vector3 lockValues) {
             if (lockX)
                 pos.x = lockValues.x;
@@ -265,15 +298,15 @@ namespace TD3D.Core.Editor {
             }
 
             if (m_curve.HasBakedCurve) {
-                /*
+                Handles.color = Color.red; 
                 int n = 300;
-                Vector3 last = m_curve.EvaluateCurvePoint(0f / n);
+                Vector3 last = m_curve.bakedCurve.EvaluatePointAtTime(0f / n);
                 for (int i = 1; i <= n; i++) {
-                    Vector3 curr = m_curve.EvaluateCurvePoint(i / (float)n);
+                    Vector3 curr = m_curve.bakedCurve.EvaluatePointAtTime(i / (float)n);
                     Handles.DrawLine(last, curr);
                     last = curr;
                 }
-                */
+                
             }
         }
     }
