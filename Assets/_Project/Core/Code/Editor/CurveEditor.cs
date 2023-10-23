@@ -60,7 +60,7 @@ namespace TD3D.Core.Editor {
             m_curve.BakeCurve(m_curveCreator.bakedCurveVertexSpacing, 
                               m_curveCreator.currAnchorOptions.lockX,
                               m_curveCreator.currAnchorOptions.lockY,
-                              m_curveCreator.currAnchorOptions.lockZ);
+                              m_curveCreator.currAnchorOptions.lockZ, m_curveCreator.width);
         }
 
         public override void OnInspectorGUI() {

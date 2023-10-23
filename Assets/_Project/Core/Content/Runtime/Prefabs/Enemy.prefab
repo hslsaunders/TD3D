@@ -24,6 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6326858787473733716}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,7 +32,6 @@ Transform:
   m_Children:
   - {fileID: 5968403851678652473}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2704111320322546918
 MonoBehaviour:
@@ -50,39 +50,40 @@ MonoBehaviour:
     m_authoring:
     - enabled: 1
       value:
-        rid: 7523943953613979661
+        rid: 7523944292027204078
     - enabled: 1
       value:
-        rid: 7523943953613979670
+        rid: 7523944294902661936
     - enabled: 1
       value:
-        rid: 7523943953613979666
+        rid: 7523944292027204080
     - enabled: 1
       value:
-        rid: 7523943953613979675
+        rid: 7523944292027204082
     m_runtime: []
   m_isValidPrefab: 1
+  m_enableSerialization: 0
   m_persistentKey: Enemy
   references:
     version: 2
     RefIds:
-    - rid: 7523943953613979661
-      type: {class: Enemy, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
+    - rid: 7523944292027204078
+      type: {class: BezierCurveMovement, ns: TD3D.Core.Runtime, asm: TD3D.Core.Runtime}
       data:
-        radius: 0.5
-    - rid: 7523943953613979666
-      type: {class: TurretTarget, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
-    - rid: 7523943953613979670
-      type: {class: PathMovement, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
+        curve: {fileID: 0}
+        distFromCurve: 0
+        distAlongCurve: 0
+    - rid: 7523944292027204080
+      type: {class: Enemy, ns: TD3D.Core.Runtime, asm: TD3D.Core.Runtime}
       data:
-        pathPoints:
-        - {x: -6, y: 0, z: 6.5}
-        - {x: 6, y: 0, z: 6.5}
-        pathPointIndex: 0
-    - rid: 7523943953613979675
-      type: {class: MovementSpeed, ns: TD3D.Core.Runtime.Runtime, asm: TD3D.Core.Runtime}
+        radius: 0
+    - rid: 7523944292027204082
+      type: {class: TurretTarget, ns: TD3D.Core.Runtime, asm: TD3D.Core.Runtime}
+      data: 
+    - rid: 7523944294902661936
+      type: {class: MovementSpeed, ns: TD3D.Core.Runtime, asm: TD3D.Core.Runtime}
       data:
-        value: 1
+        value: 1.5
 --- !u!1001 &6151563955050151890
 PrefabInstance:
   m_ObjectHideFlags: 0

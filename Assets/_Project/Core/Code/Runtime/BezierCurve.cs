@@ -41,7 +41,7 @@ namespace TD3D.Core.Runtime {
             return true;
         }
 
-        public void BakeCurve(float pointSpacing, bool xLock, bool yLock, bool zLock) {
+        public void BakeCurve(float pointSpacing, bool xLock, bool yLock, bool zLock, float width = 0f) {
             m_lastBakedControlPointSet = new List<ControlPoint>();
             foreach (var point in controlPoints)
                 m_lastBakedControlPointSet.Add(new ControlPoint(point));
@@ -50,7 +50,7 @@ namespace TD3D.Core.Runtime {
             if (yLock && !xLock && !zLock)
                 axes = CurveAxes.xz;
             
-            bakedCurve = new BakedBezierCurve(this, pointSpacing, axes);
+            bakedCurve = new BakedBezierCurve(this, pointSpacing, axes, width);
             OnBake?.Invoke();
         }
 

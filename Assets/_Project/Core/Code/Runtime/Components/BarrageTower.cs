@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using UFlow.Addon.ECS.Core.Runtime;
 using UnityEngine;
 
-namespace TD3D.Core.Runtime.Runtime {
+namespace TD3D.Core.Runtime {
     public struct BarrageTower : IEcsComponent {
         public List<Transform> fireSources;
         public Transform launcherTransform;

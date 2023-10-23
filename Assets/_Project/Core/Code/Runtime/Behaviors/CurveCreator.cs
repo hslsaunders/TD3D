@@ -6,9 +6,11 @@ using UnityEditor;
 using UnityEngine;
 
 namespace TD3D.Core.Runtime {
+    [ExecuteAlways]
     public class CurveCreator : MonoBehaviour {
         [HideInInspector] public BezierCurve curve;
         //public List<ControlPoint> selectedControlPoints = new();
+        public float width;
         public bool autoBakeAfterChange;
         public float anchorSize = .25f;
         public float controlPointSize = .15f;
@@ -18,6 +20,8 @@ namespace TD3D.Core.Runtime {
         [HideInInspector] public float snappingSize;
         [SerializeField] private bool m_showTestPoint;
         [ShowIf("m_showTestPoint")] [SerializeField] private bool m_useDist;
+        [ShowIf("m_showTestPoint")] [SerializeField] private bool m_animateTestPoint;
+        [ShowIf("m_showTestPoint")] [SerializeField] private float m_animationSpeed;
         [ShowIf("@m_showTestPoint && !m_useDist")] [PropertyRange(0f, 1f), SerializeField] private float m_testPointProgress;
         [ShowIf("@m_showTestPoint && m_useDist")] [SerializeField] private float m_testPointDist;
         [ShowIf("m_showTestPoint")] [SerializeField] private float m_testPointDistFromCurve;
@@ -29,14 +33,30 @@ namespace TD3D.Core.Runtime {
         [HideInInspector] public bool bakedCurveInfoFoldoutOpen;
         [HideInInspector] public bool queueRebake;
 
+        private double m_oldTime;
+        
+#if UNITY_EDITOR
         public void QueueBakeCurve() {
             if (autoBakeAfterChange) {
                 queueRebake = true;
             }
         }
         
+        private void Update() {
+            if (m_showTestPoint && m_animateTestPoint) {
+                double editorTime = EditorApplication.timeSinceStartup;
+                float delta = (float)editorTime - (float)m_oldTime;
+                if (m_useDist)
+                    m_testPointDist = (m_testPointDist + m_animationSpeed * delta) %
+                                      curve.bakedCurve.GetApproximateCurveLengthWithDistFromCenter(m_testPointDistFromCurve);
+                else
+                    m_testPointProgress = (m_testPointProgress + m_animationSpeed * delta) % 1f;
 
-#if UNITY_EDITOR
+                m_oldTime = editorTime;
+            }
+        }
+
+
         [UsedImplicitly]
         private void RepaintScene() {
             SceneView.RepaintAll();
@@ -47,8 +67,18 @@ namespace TD3D.Core.Runtime {
             if (curve.HasBakedCurve) {
                 if (debugBakedCurveVertices) {
                     for (int i = 0; i < curve.bakedCurve.numPoints; i++) {
-                        Gizmos.color = Color.white;
+                        Gizmos.color = Color.Lerp(Color.green, Color.red, 
+                                                  curve.bakedCurve.cumulativeDistances[i] / curve.bakedCurve.totalLength);
                         Gizmos.DrawWireSphere(curve.bakedCurve.points[i],  m_vertexDebugSize);
+                        if (width != 0f) {
+                            Gizmos.color = Color.Lerp(Color.green, Color.red,
+                                                      curve.bakedCurve.breadthTopDistances[i] / curve.bakedCurve.breadthTopLength);
+                            Gizmos.DrawWireSphere(curve.bakedCurve.breadthTopVertices[i], m_vertexDebugSize);
+                            Gizmos.color = Color.Lerp(Color.green, Color.red, 
+                                                      curve.bakedCurve.breadthBottomDistances[i] / curve.bakedCurve.breadthBottomLength);
+                            Gizmos.DrawWireSphere(curve.bakedCurve.breadthBottomVertices[i], m_vertexDebugSize);
+                        }
+
                         Gizmos.color = Color.red;
                         Gizmos.DrawRay(curve.bakedCurve.points[i], curve.bakedCurve.tangents[i] * m_vertexDebugSize * 2f);
                         Gizmos.color = Color.blue;
@@ -62,13 +92,14 @@ namespace TD3D.Core.Runtime {
                     Vector3 dir;
                     Vector3 upwards;
                     if (m_useDist) {
-                        point = curve.bakedCurve.EvaluatePointAtDistance(m_testPointDist);
-                        dir = curve.bakedCurve.EvaluateDirectionAtDistance(m_testPointDist);
-                        upwards = curve.bakedCurve.EvaluateNormalAtDistance(m_testPointDist);
+                        point = curve.bakedCurve.EvaluatePointAtDistanceWithWidth(m_testPointDist, m_testPointDistFromCurve);
+                        //point = curve.bakedCurve.EvaluatePointAtDistance(m_testPointDist);
+                        dir = curve.bakedCurve.EvaluateDirectionAtDistanceWithWidth(m_testPointDist, m_testPointDistFromCurve);
+                        upwards = curve.bakedCurve.EvaluateNormalAtDistanceWithWidth(m_testPointDist, m_testPointDistFromCurve);
                     }
                     else {
-                        //point = curve.bakedCurve.EvaluatePointAtTimeWithWidth(m_testPointProgress, m_testPointDistFromCurve);
-                        point = curve.bakedCurve.EvaluatePointAtTime(m_testPointProgress);
+                        point = curve.bakedCurve.EvaluatePointAtTimeWithWidth(m_testPointProgress, m_testPointDistFromCurve);
+                        //point = curve.bakedCurve.EvaluatePointAtTime(m_testPointProgress);
                         dir = curve.bakedCurve.EvaluateDirectionAtTime(m_testPointProgress);
                         upwards = curve.bakedCurve.EvaluateNormalAtTime(m_testPointProgress);
                     }
